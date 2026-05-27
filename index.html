@@ -1,0 +1,3127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaiseki Restaurant Hechingen</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #0a0a0a;
+      color: #f5f0e8;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── Colours ───────────────────────────────────────────── */
+    :root {
+      --gold:    #c9a84c;
+      --gold-lt: #e2c97e;
+      --cream:   #f5f0e8;
+      --crimson: #8b0000;
+      --bg:      #0a0a0a;
+      --bg2:     #111111;
+      --bg3:     #161616;
+    }
+
+    /* ─── Grain overlay ─────────────────────────────────────── */
+    .grain::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.06;
+    }
+
+    /* ─── Gold divider ──────────────────────────────────────── */
+    .gold-rule {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto;
+    }
+    .gold-rule-full {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+      opacity: 0.35;
+    }
+
+    /* ─── Section spacing ───────────────────────────────────── */
+    section { position: relative; }
+
+    /* ════════════════════════════════════════════════════════
+       NAV
+    ════════════════════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 3rem;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      transition: opacity 0.3s;
+    }
+    .nav-logo:hover img { opacity: 0.8; }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.7);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 1px; background: var(--cream); transition: 0.3s; }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,0.97);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      letter-spacing: 0.2em;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      font-size: 2rem;
+      color: var(--cream);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       HERO
+    ════════════════════════════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      transform: scale(1.08);
+      transition: transform 8s ease-out;
+      overflow: hidden;
+    }
+    .hero-bg.loaded { transform: scale(1); }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(10,10,10,0.93) 0%,
+        rgba(10,10,10,0.88) 40%,
+        rgba(10,10,10,0.96) 100%);
+    }
+
+    /* Parallax on scroll handled by JS */
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6rem;
+    }
+    .hero-kana {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200;
+      font-size: 0.85rem;
+      letter-spacing: 0.6em;
+      color: var(--gold);
+      opacity: 0;
+      animation: fadeUp 1.2s 0.3s forwards;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3.8rem, 10vw, 9rem);
+      letter-spacing: 0.35em;
+      line-height: 1;
+      color: var(--cream);
+      display: flex;
+      gap: 0;
+    }
+    .hero-title span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      letter-spacing: 0.08em;
+      color: rgba(245,240,232,0.75);
+      opacity: 0;
+      animation: fadeUp 1.2s 1.8s forwards;
+    }
+    .hero-divider {
+      width: 160px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      animation: fadeIn 1s 2.2s forwards;
+    }
+    .btn-primary {
+      display: inline-block;
+      padding: 0.9rem 2.8rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.35s;
+      opacity: 0;
+      animation: fadeUp 1s 2.5s forwards;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-101%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      z-index: -1;
+    }
+    .btn-primary:hover { color: var(--bg); }
+    .btn-primary:hover::before { transform: translateX(0); }
+
+    /* ─── Cherry Blossoms ───────────────────────────────────── */
+    .petals-wrap {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .petal {
+      position: absolute;
+      top: -40px;
+      width: 12px;
+      height: 12px;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(110vh) rotate(720deg) translateX(60px); }
+    }
+
+    /* ─── Hero scroll hint ──────────────────────────────────── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s 3.2s forwards;
+      z-index: 2;
+    }
+    .scroll-hint span {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 44px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(0.6); }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       ABOUT
+    ════════════════════════════════════════════════════════ */
+    #about {
+      padding: 8rem 0;
+      background: var(--bg2);
+    }
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-art {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-art svg {
+      width: 100%;
+      max-width: 380px;
+      filter: drop-shadow(0 0 40px rgba(201,168,76,0.12));
+    }
+    .about-text { display: flex; flex-direction: column; gap: 1.8rem; }
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--cream);
+    }
+    .about-body {
+      font-size: 1.02rem;
+      line-height: 1.9;
+      color: rgba(245,240,232,0.65);
+    }
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.4rem;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(201,168,76,0.05);
+      width: fit-content;
+    }
+    .rating-stars { color: var(--gold); font-size: 1.05rem; letter-spacing: 2px; }
+    .rating-text { font-size: 0.82rem; color: rgba(245,240,232,0.6); letter-spacing: 0.05em; }
+    .rating-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       MENU
+    ════════════════════════════════════════════════════════ */
+    #menu {
+      padding: 8rem 0;
+      background: var(--bg);
+    }
+    .menu-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .section-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 4.5rem;
+    }
+    .price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: rgba(245,240,232,0.5);
+      letter-spacing: 0.12em;
+    }
+    .price-tag strong { color: var(--gold); font-weight: 400; }
+
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 3rem 0;
+    }
+    .dish-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      z-index: 1;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), box-shadow 0.5s;
+    }
+    .dish-card:hover,
+    .dish-card:focus-within {
+      transform: scale(1.45);
+      z-index: 10;
+      box-shadow: 0 30px 80px -10px rgba(0,0,0,0.85);
+    }
+    .dish-card:first-child { transform-origin: left center; }
+    .dish-card:last-child  { transform-origin: right center; }
+    .dish-card img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.7) saturate(0.85);
+      transition: filter 0.5s;
+    }
+    .dish-card:hover img,
+    .dish-card:focus-within img {
+      filter: brightness(1) saturate(1);
+    }
+    .dish-card-body {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.1rem 0.9rem;
+      background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.4) 40%, transparent 70%);
+    }
+    .dish-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid transparent;
+      transition: border-color 0.4s;
+      pointer-events: none;
+    }
+    .dish-card:hover::after,
+    .dish-card:focus-within::after { border-color: rgba(201,168,76,0.55); }
+    .dish-kana {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.55rem;
+      color: var(--gold);
+      letter-spacing: 0.25em;
+      margin-bottom: 0.3rem;
+    }
+    .dish-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.25;
+      margin-bottom: 0.3rem;
+    }
+    .dish-desc {
+      font-size: 0.6rem;
+      color: rgba(245,240,232,0.6);
+      line-height: 1.5;
+    }
+    .dish-price {
+      margin-top: 0.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       CONTACT / RESERVIERUNG
+    ════════════════════════════════════════════════════════ */
+    #kontakt {
+      padding: 8rem 0;
+      background: var(--bg2);
+    }
+    .kontakt-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .kontakt-card {
+      background: rgba(201,168,76,0.04);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .kontakt-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+    .kontakt-icon {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(201,168,76,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+    .kontakt-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .kontakt-value {
+      font-size: 1rem;
+      color: var(--cream);
+      line-height: 1.5;
+    }
+    .kontakt-value a { color: inherit; text-decoration: none; }
+    .kontakt-value a:hover { color: var(--gold); }
+
+    .btn-call {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 1.1rem 2rem;
+      background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: background 0.35s, color 0.35s;
+      margin-top: 0.5rem;
+    }
+    .btn-call:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .map-wrap {
+      height: 100%;
+      min-height: 340px;
+    }
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 340px;
+      border: 0;
+      filter: none;
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       REVIEWS
+    ════════════════════════════════════════════════════════ */
+    #bewertungen {
+      padding: 8rem 0;
+      background: var(--bg3);
+    }
+    .reviews-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .review-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(201,168,76,0.15);
+      backdrop-filter: blur(16px);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .review-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.5rem;
+      right: 1.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem;
+      color: var(--gold);
+      opacity: 0.06;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .review-card:hover {
+      border-color: rgba(201,168,76,0.4);
+      transform: translateY(-3px);
+    }
+    .review-stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 3px; }
+    .review-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(245,240,232,0.75);
+    }
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      border-top: 1px solid rgba(201,168,76,0.12);
+      padding-top: 1rem;
+    }
+    .review-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .review-name { font-size: 0.82rem; color: var(--cream); }
+    .review-date { font-size: 0.72rem; color: rgba(245,240,232,0.4); }
+
+    .reviews-total {
+      text-align: center;
+      margin-top: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .reviews-total p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: rgba(245,240,232,0.65);
+    }
+    .reviews-total a {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201,168,76,0.4);
+      padding-bottom: 2px;
+      transition: border-color 0.25s;
+    }
+    .reviews-total a:hover { border-color: var(--gold); }
+
+    /* ════════════════════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════════════════════ */
+    footer {
+      padding: 4rem 2rem 2.5rem;
+      background: var(--bg);
+      border-top: 1px solid rgba(201,168,76,0.12);
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      text-align: center;
+    }
+    .footer-logo img {
+      height: 90px;
+      width: auto;
+      opacity: 0.85;
+    }
+    .footer-info {
+      font-size: 0.8rem;
+      color: rgba(245,240,232,0.4);
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+    }
+    .footer-socials { display: flex; gap: 1.2rem; }
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(201,168,76,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(245,240,232,0.45);
+      text-decoration: none;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .social-icon:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(245,240,232,0.25);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── SVG Decorative Divider ────────────────────────────── */
+    .wave-divider {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+    }
+
+    /* ─── Keyframes ─────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes letterIn {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── AOS custom ─────────────────────────────────────────── */
+    [data-aos="gold-line"] {
+      width: 0;
+      transition-property: width;
+    }
+    [data-aos="gold-line"].aos-animate { width: 120px; }
+
+    /* ─── Responsive ────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about-art { order: -1; }
+      .about-art svg { max-width: 260px; }
+
+      .dish-grid { grid-template-columns: 1fr; gap: 2px; }
+
+      .kontakt-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .kontakt-card { padding: 2rem; }
+
+      .review-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 3.2rem; }
+      .section-heading { font-size: 2rem; }
+      .dish-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       RESERVATION MODULE
+    ════════════════════════════════════════════════════════ */
+    .res-module {
+      max-width: 1100px;
+      margin: 5rem auto 0;
+      padding: 0 2rem;
+    }
+    .res-module-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .res-form {
+      background: rgba(201,168,76,0.025);
+      border: 1px solid rgba(201,168,76,0.18);
+      padding: 3rem 3.5rem;
+    }
+    .res-steps-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 0;
+    }
+    .res-step-label {
+      font-size: 0.66rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .res-step-num {
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgba(201,168,76,0.45);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .res-opts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .res-opt {
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(201,168,76,0.22);
+      background: transparent;
+      color: rgba(245,240,232,0.55);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .res-opt:hover {
+      border-color: rgba(201,168,76,0.6);
+      color: var(--cream);
+    }
+    .res-opt.active {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .res-date-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      padding: 0.55rem 0;
+      outline: none;
+      cursor: pointer;
+      color-scheme: dark;
+      letter-spacing: 0.04em;
+    }
+    .res-date-input:focus { border-bottom-color: var(--gold); }
+    .res-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.18), transparent);
+      margin: 2.5rem 0;
+    }
+    .res-slots-section { display: none; }
+    .res-slots-section.visible { display: block; }
+    .res-slots-label {
+      font-size: 0.66rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .time-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 0.5rem;
+    }
+    .time-slot {
+      padding: 0.55rem 1.1rem;
+      border: 1px solid rgba(201,168,76,0.18);
+      background: transparent;
+      color: rgba(245,240,232,0.6);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.06em;
+      min-width: 72px;
+      text-align: center;
+    }
+    .time-slot:hover {
+      border-color: var(--gold);
+      color: var(--cream);
+      background: rgba(201,168,76,0.06);
+    }
+    .time-slot.active {
+      background: rgba(201,168,76,0.14);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .no-slots-msg {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(245,240,232,0.3);
+      padding: 1rem 0;
+    }
+    .res-contact-section { display: none; }
+    .res-contact-section.visible { display: block; }
+    .res-contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .res-field { display: flex; flex-direction: column; gap: 0.5rem; }
+    .res-field label {
+      font-size: 0.63rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.75);
+    }
+    .res-field input,
+    .res-field textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.55rem 0;
+      outline: none;
+      resize: none;
+    }
+    .res-field input:focus,
+    .res-field textarea:focus { border-bottom-color: var(--gold); }
+    .res-field input::placeholder,
+    .res-field textarea::placeholder { color: rgba(245,240,232,0.2); }
+    .res-summary {
+      display: none;
+      padding: 1rem 1.5rem;
+      background: rgba(201,168,76,0.05);
+      border-left: 2px solid rgba(201,168,76,0.5);
+      margin-bottom: 2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: rgba(245,240,232,0.6);
+      line-height: 1.7;
+    }
+    .res-summary.visible { display: block; }
+    .res-summary strong { color: var(--gold); font-style: normal; font-weight: 400; }
+    .res-submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.9rem;
+      width: 100%;
+      padding: 1.05rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .res-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-101%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      z-index: 0;
+    }
+    .res-submit:hover::before { transform: translateX(0); }
+    .res-submit:hover { color: var(--bg); }
+    .res-submit span { position: relative; z-index: 1; }
+    .res-submit:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .res-note {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(245,240,232,0.28);
+      letter-spacing: 0.08em;
+      margin-top: 1.5rem;
+      line-height: 1.8;
+    }
+    .res-success {
+      display: none;
+      text-align: center;
+      padding: 4rem 2rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .res-success.visible { display: flex; }
+    .res-success-icon {
+      width: 56px;
+      height: 56px;
+      border: 1px solid rgba(201,168,76,0.45);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+    }
+    .res-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 2rem;
+      color: var(--cream);
+    }
+    .res-success p {
+      font-size: 0.88rem;
+      color: rgba(245,240,232,0.45);
+      max-width: 400px;
+      line-height: 1.9;
+      letter-spacing: 0.03em;
+    }
+    .res-success-detail {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: rgba(201,168,76,0.8);
+    }
+    @media (max-width: 900px) {
+      .res-steps-row { grid-template-columns: 1fr; gap: 2rem; }
+      .res-form { padding: 2rem; }
+      .res-contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       BESTELLEN & ABHOLEN
+    ════════════════════════════════════════════════════════ */
+    #abholen {
+      padding: 8rem 0 6rem;
+      background: var(--bg);
+    }
+    .abhol-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .abhol-layout {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 3rem;
+      align-items: start;
+      margin-top: 4rem;
+    }
+    /* ─ Speisekarte ─ */
+    .speise-placeholder-note {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.4rem;
+      border: 1px dashed rgba(201,168,76,0.25);
+      margin-bottom: 2.5rem;
+      font-size: 0.78rem;
+      color: rgba(245,240,232,0.4);
+      letter-spacing: 0.05em;
+    }
+    .speise-placeholder-note span { color: var(--gold); }
+    .speise-category {
+      font-size: 0.64rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .speise-list { margin-bottom: 2.5rem; }
+    .speise-item {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.2s;
+    }
+    .speise-item:last-child { border-bottom: none; }
+    .speise-kana {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(201,168,76,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.65rem;
+      color: rgba(201,168,76,0.6);
+      flex-shrink: 0;
+    }
+    .speise-info { flex: 1; min-width: 0; }
+    .speise-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--cream);
+      margin-bottom: 0.15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .speise-desc {
+      font-size: 0.72rem;
+      color: rgba(245,240,232,0.38);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .speise-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      white-space: nowrap;
+      margin: 0 1rem;
+      letter-spacing: 0.04em;
+    }
+    .speise-add-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: transparent;
+      color: var(--gold);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .speise-add-btn:hover {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold);
+    }
+    .speise-item.in-cart .speise-add-btn {
+      background: rgba(201,168,76,0.12);
+      border-color: var(--gold);
+    }
+    .speise-qty-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .speise-qty-ctrl.hidden { display: none; }
+    .qty-btn {
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: transparent;
+      color: var(--gold);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+    .qty-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+    .qty-num {
+      min-width: 20px;
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--cream);
+    }
+
+    /* ─ Warenkorb ─ */
+    .cart-sticky { position: sticky; top: 90px; }
+    .cart-box {
+      background: rgba(201,168,76,0.03);
+      border: 1px solid rgba(201,168,76,0.18);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.4rem;
+    }
+    .cart-title {
+      font-size: 0.66rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .cart-count {
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold);
+      font-size: 0.65rem;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-empty {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(245,240,232,0.25);
+      text-align: center;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      margin-bottom: 1.2rem;
+    }
+    .cart-items-list { margin-bottom: 0; }
+    .cart-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      gap: 0.5rem;
+    }
+    .cart-line-name {
+      font-size: 0.82rem;
+      color: var(--cream);
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-line-qty {
+      font-size: 0.75rem;
+      color: rgba(245,240,232,0.4);
+      white-space: nowrap;
+      padding: 0 0.5rem;
+    }
+    .cart-line-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .cart-line-remove {
+      background: none;
+      border: none;
+      color: rgba(245,240,232,0.2);
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0 0 0 0.4rem;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .cart-line-remove:hover { color: var(--crimson); }
+    .cart-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.18), transparent);
+      margin: 1.2rem 0;
+    }
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.4rem;
+    }
+    .cart-total-label {
+      font-size: 0.66rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+    }
+    .cart-total-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+    }
+
+    /* Note + Pickup inside cart */
+    .cart-field { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1.2rem; }
+    .cart-field label {
+      font-size: 0.62rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.7);
+    }
+    .cart-field textarea,
+    .cart-field input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.22);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.84rem;
+      padding: 0.5rem 0;
+      outline: none;
+      resize: none;
+    }
+    .cart-field textarea:focus,
+    .cart-field input:focus { border-bottom-color: var(--gold); }
+    .cart-field textarea::placeholder,
+    .cart-field input::placeholder { color: rgba(245,240,232,0.2); }
+
+    .pickup-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.4rem;
+    }
+    .pickup-slot {
+      padding: 0.4rem 0.75rem;
+      border: 1px solid rgba(201,168,76,0.18);
+      background: transparent;
+      color: rgba(245,240,232,0.55);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.76rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .pickup-slot:hover { border-color: var(--gold); color: var(--cream); }
+    .pickup-slot.active {
+      background: rgba(201,168,76,0.12);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .pickup-date-row {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .pickup-date-row input[type="date"] {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.22);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.84rem;
+      padding: 0.5rem 0;
+      outline: none;
+      color-scheme: dark;
+    }
+    .pickup-date-row input[type="date"]:focus { border-bottom-color: var(--gold); }
+
+    .order-submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      width: 100%;
+      padding: 1rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.77rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .order-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-101%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      z-index: 0;
+    }
+    .order-submit:hover::before { transform: translateX(0); }
+    .order-submit:hover { color: var(--bg); }
+    .order-submit span { position: relative; z-index: 1; }
+    .order-submit:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
+    /* Success */
+    .order-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2.5rem 1rem;
+      gap: 1rem;
+    }
+    .order-success.visible { display: flex; }
+    .order-success-icon {
+      width: 48px; height: 48px;
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+    }
+    .order-success h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.4rem;
+      color: var(--cream);
+    }
+    .order-success p {
+      font-size: 0.78rem;
+      color: rgba(245,240,232,0.4);
+      line-height: 1.8;
+    }
+    .order-success-detail {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(201,168,76,0.75);
+    }
+
+    /* ─ Accordion ─ */
+    .speise-accordion { margin-bottom: 0.4rem; }
+    .speise-acc-header {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      border: 1px solid rgba(201,168,76,0.12);
+      background: rgba(201,168,76,0.02);
+      transition: background 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .speise-acc-header:hover {
+      background: rgba(201,168,76,0.05);
+      border-color: rgba(201,168,76,0.25);
+    }
+    .speise-acc-header.open {
+      background: rgba(201,168,76,0.06);
+      border-color: rgba(201,168,76,0.3);
+      border-bottom-color: transparent;
+    }
+    .speise-acc-kana {
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(201,168,76,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.6rem;
+      color: rgba(201,168,76,0.7);
+      flex-shrink: 0;
+    }
+    .speise-acc-title {
+      flex: 1;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.7);
+    }
+    .speise-acc-header.open .speise-acc-title { color: var(--gold); }
+    .speise-acc-count {
+      font-size: 0.62rem;
+      color: rgba(245,240,232,0.3);
+      letter-spacing: 0.08em;
+    }
+    .speise-acc-cart-badge {
+      display: none;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold);
+      font-size: 0.6rem;
+      padding: 0.1rem 0.45rem;
+      letter-spacing: 0.05em;
+    }
+    .speise-acc-cart-badge.visible { display: inline-block; }
+    .speise-acc-chevron {
+      color: rgba(201,168,76,0.45);
+      font-size: 0.65rem;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .speise-acc-header.open .speise-acc-chevron { transform: rotate(180deg); }
+    .speise-acc-body {
+      display: none;
+      border: 1px solid rgba(201,168,76,0.15);
+      border-top: none;
+      padding: 0 0.5rem;
+    }
+    .speise-acc-body.open { display: block; }
+    /* Nr column */
+    .speise-nr {
+      font-size: 0.65rem;
+      color: rgba(245,240,232,0.2);
+      letter-spacing: 0.06em;
+      min-width: 24px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    @media (max-width: 1100px) {
+      .abhol-layout { grid-template-columns: 1fr 360px; }
+    }
+    @media (max-width: 900px) {
+      .abhol-layout { grid-template-columns: 1fr; }
+      .cart-sticky { position: static; }
+    }
+  </style>
+</head>
+
+<body class="grain">
+
+  <!-- SVG Filter: Weiß → transparent, Schwarz → Gold -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="logo-to-gold" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <!-- Luminanz des Originals als Alpha verwenden -->
+        <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum"/>
+        <!-- Alpha invertieren: weiß→0 (transparent), schwarz→1 (sichtbar) -->
+        <feComponentTransfer in="lum" result="mask">
+          <feFuncA type="linear" slope="-1" intercept="1"/>
+        </feComponentTransfer>
+        <!-- Gold-Fläche erzeugen -->
+        <feFlood flood-color="#c9a84c" result="gold"/>
+        <!-- Gold durch invertierte Alpha-Maske beschneiden -->
+        <feComposite in="gold" in2="mask" operator="in"/>
+      </filter>
+      <!-- Hellere Version fürs Hover -->
+      <filter id="logo-to-gold-bright" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="lum"/>
+        <feComponentTransfer in="lum" result="mask">
+          <feFuncA type="linear" slope="-1" intercept="1"/>
+        </feComponentTransfer>
+        <feFlood flood-color="#e2c97e" result="gold"/>
+        <feComposite in="gold" in2="mask" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ═══════════════════════════ NAV ═══════════════════════ -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#hero">
+      <img src="Kaiseki_Logo1.png" alt="Kaiseki Restaurant" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">Philosophie</a></li>
+      <li><a href="#menu">Menü</a></li>
+      <li><a href="#kontakt">Reservierung</a></li>
+      <li><a href="#abholen">Take-Away</a></li>
+      <li><a href="#bewertungen">Bewertungen</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" aria-label="Menü öffnen">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">&#215;</button>
+    <a href="#about"       onclick="closeMobile()">Philosophie</a>
+    <a href="#menu"        onclick="closeMobile()">Menü</a>
+    <a href="#kontakt"     onclick="closeMobile()">Reservierung</a>
+    <a href="#abholen"     onclick="closeMobile()">Take-Away</a>
+    <a href="#bewertungen" onclick="closeMobile()">Bewertungen</a>
+  </div>
+
+  <!-- ═══════════════════════════ HERO ══════════════════════ -->
+  <section id="hero">
+
+    <!-- Background Slideshow -->
+    <div class="hero-bg" id="heroBg">
+      <div class="hero-slide active" style="background-image: url('Hintergrund_Kaiseki1.png')"></div>
+      <div class="hero-slide"        style="background-image: url('Kaiseki%20Hintergrund2.png')"></div>
+      <div class="hero-slide"        style="background-image: url('Kaiseki%20Hintergrund3.png')"></div>
+      <div class="hero-slide"        style="background-image: url('Kaiseki%20Hintergrund4.png')"></div>
+    </div>
+
+    <!-- Cherry Blossom Petals -->
+    <div class="petals-wrap" id="petals"></div>
+
+    <!-- Content -->
+    <div class="hero-content">
+      <img
+        src="Kaiseki_Logo1.png"
+        alt="Kaiseki Restaurant Logo"
+        style="
+          height: clamp(140px, 22vw, 220px);
+          width: auto;
+          opacity: 0;
+          animation: fadeUp 1.2s 0.5s forwards;
+          margin-bottom: 0.5rem;
+        "
+      />
+      <p class="hero-kana">懐石料理 · HECHINGEN · GERMANY</p>
+
+      <h1 class="hero-title" id="heroTitle" aria-label="Kaiseki">
+        <!-- letters injected by JS -->
+      </h1>
+
+      <p class="hero-tagline">
+        „Kunst auf dem Teller. Stille auf der Seele."
+      </p>
+
+      <div class="hero-divider"></div>
+
+      <a class="btn-primary" href="tel:01733814566">Tisch reservieren</a>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint">
+      <span>Entdecken</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <div class="wave-divider" style="background:var(--bg2)">
+    <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
+      <path d="M0,14 C240,28 480,0 720,14 C960,28 1200,0 1440,14 L1440,28 L0,28 Z" fill="#0a0a0a"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════ ABOUT ═════════════════════ -->
+  <section id="about">
+    <div class="about-inner">
+
+      <!-- Ink illustration -->
+      <div class="about-art" data-aos="fade-right" data-aos-duration="1200">
+        <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <filter id="blur1"><feGaussianBlur stdDeviation="1.5"/></filter>
+          </defs>
+
+          <!-- Bamboo stems -->
+          <g stroke="#c9a84c" fill="none" opacity="0.55">
+            <line x1="160" y1="480" x2="155" y2="60" stroke-width="3" stroke-linecap="round"/>
+            <line x1="200" y1="480" x2="205" y2="80" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="235" y1="480" x2="240" y2="100" stroke-width="2" stroke-linecap="round"/>
+            <!-- nodes -->
+            <line x1="148" y1="380" x2="168" y2="378" stroke-width="2" opacity="0.8"/>
+            <line x1="148" y1="300" x2="168" y2="298" stroke-width="2" opacity="0.8"/>
+            <line x1="148" y1="220" x2="168" y2="218" stroke-width="2" opacity="0.8"/>
+            <line x1="148" y1="140" x2="168" y2="138" stroke-width="2" opacity="0.8"/>
+
+            <line x1="196" y1="360" x2="214" y2="362" stroke-width="1.5" opacity="0.7"/>
+            <line x1="196" y1="280" x2="214" y2="282" stroke-width="1.5" opacity="0.7"/>
+            <line x1="196" y1="200" x2="214" y2="202" stroke-width="1.5" opacity="0.7"/>
+
+            <line x1="232" y1="340" x2="248" y2="342" stroke-width="1.2" opacity="0.6"/>
+            <line x1="232" y1="260" x2="248" y2="262" stroke-width="1.2" opacity="0.6"/>
+          </g>
+
+          <!-- Bamboo leaves -->
+          <g fill="none" stroke="#c9a84c" stroke-width="1.2" opacity="0.45">
+            <path d="M155 200 Q120 170 95 185 Q120 205 155 200Z"/>
+            <path d="M155 140 Q180 110 210 118 Q185 140 155 140Z"/>
+            <path d="M205 180 Q175 155 160 168 Q180 182 205 180Z"/>
+            <path d="M205 120 Q235 95 258 108 Q232 125 205 120Z"/>
+            <path d="M240 160 Q210 140 198 152 Q215 163 240 160Z"/>
+          </g>
+
+          <!-- Plum blossoms -->
+          <g opacity="0.65">
+            <!-- blossom 1 -->
+            <g transform="translate(100,280) scale(0.9)">
+              <circle r="6" fill="#8b0000" opacity="0.8"/>
+              <circle r="6" cx="10"  cy="-3"  fill="#8b0000" opacity="0.7"/>
+              <circle r="6" cx="6"   cy="9"   fill="#8b0000" opacity="0.7"/>
+              <circle r="6" cx="-6"  cy="9"   fill="#8b0000" opacity="0.7"/>
+              <circle r="6" cx="-10" cy="-3"  fill="#8b0000" opacity="0.7"/>
+              <circle r="2.5" fill="#c9a84c" opacity="0.9"/>
+            </g>
+            <!-- blossom 2 smaller -->
+            <g transform="translate(310,180) scale(0.65)">
+              <circle r="6" fill="#8b0000" opacity="0.6"/>
+              <circle r="6" cx="10"  cy="-3"  fill="#8b0000" opacity="0.55"/>
+              <circle r="6" cx="6"   cy="9"   fill="#8b0000" opacity="0.55"/>
+              <circle r="6" cx="-6"  cy="9"   fill="#8b0000" opacity="0.55"/>
+              <circle r="6" cx="-10" cy="-3"  fill="#8b0000" opacity="0.55"/>
+              <circle r="2.5" fill="#c9a84c" opacity="0.8"/>
+            </g>
+            <!-- blossom 3 tiny -->
+            <g transform="translate(80,120) scale(0.5)">
+              <circle r="6" fill="#8b0000" opacity="0.5"/>
+              <circle r="6" cx="10"  cy="-3"  fill="#8b0000" opacity="0.45"/>
+              <circle r="6" cx="6"   cy="9"   fill="#8b0000" opacity="0.45"/>
+              <circle r="6" cx="-6"  cy="9"   fill="#8b0000" opacity="0.45"/>
+              <circle r="6" cx="-10" cy="-3"  fill="#8b0000" opacity="0.45"/>
+              <circle r="2.5" fill="#c9a84c" opacity="0.7"/>
+            </g>
+          </g>
+
+          <!-- Branch connecting blossoms -->
+          <g stroke="#c9a84c" fill="none" stroke-width="1" opacity="0.25">
+            <path d="M155 230 Q125 260 100 280"/>
+            <path d="M160 100 Q80 110 80 120"/>
+          </g>
+
+          <!-- Kanji character for "season" - purely decorative -->
+          <text x="320" y="430" font-family="Noto Serif JP, serif" font-size="54" fill="#c9a84c" opacity="0.08" text-anchor="middle">季</text>
+          <text x="80"  y="460" font-family="Noto Serif JP, serif" font-size="38" fill="#c9a84c" opacity="0.06" text-anchor="middle">味</text>
+        </svg>
+      </div>
+
+      <!-- Text -->
+      <div class="about-text" data-aos="fade-left" data-aos-duration="1200" data-aos-delay="200">
+        <p class="section-label">Über uns &amp; Philosophie</p>
+        <h2 class="section-heading">
+          Was uns prägt<br/>
+          <em style="font-style:italic;color:var(--gold);font-weight:300">bleibt spürbar</em>
+        </h2>
+        <div class="gold-rule" style="margin:0"></div>
+        <p class="about-body">
+          Kaiseki Hechingen ist aus der Liebe zur asiatischen Küche und ihrer tiefen Philosophie entstanden.
+          Wir glauben an ehrliche Zutaten, feine Balance und eine Küche, die nicht nur sättigt, sondern berührt.
+        </p>
+        <p class="about-body" style="font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(245,240,232,0.5)">
+          „Unsere Geschichte lebt in jedem sorgfältig komponierten Teller."
+        </p>
+        <div class="rating-badge">
+          <span class="rating-score">4,8</span>
+          <div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-text">111 Bewertungen auf Google</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gold rule -->
+  <div style="padding:0 2rem;max-width:1200px;margin:0 auto"><div class="gold-rule-full"></div></div>
+
+  <!-- Wave divider -->
+  <div class="wave-divider" style="background:var(--bg)">
+    <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
+      <path d="M0,14 C360,0 720,28 1080,14 C1260,7 1360,20 1440,14 L1440,28 L0,28 Z" fill="#111111"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════ MENU ══════════════════════ -->
+  <section id="menu">
+    <div class="menu-inner">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-label">Unsere Küche</p>
+        <h2 class="section-heading">Ausgewählte Gerichte</h2>
+        <div class="gold-rule"></div>
+        <p class="price-tag">Preis pro Person: <strong>€ 20 – 30</strong></p>
+      </div>
+
+      <div class="dish-grid">
+
+        <!-- Dish 1: Pho Bo -->
+        <div class="dish-card" tabindex="0" data-aos="fade-up" data-aos-delay="0">
+          <img src="Pho%20Bowl.png" alt="Pho Bo" loading="lazy" />
+          <div class="dish-card-body">
+            <p class="dish-kana">河粉</p>
+            <h3 class="dish-name">Pho Bo</h3>
+            <p class="dish-desc">Reisbandnudeln · frische Brühe · Rindfleisch · vietnamesische Kräuter</p>
+            <p class="dish-price">€ 16</p>
+          </div>
+        </div>
+
+        <!-- Dish 2: Sake Bowl -->
+        <div class="dish-card" tabindex="0" data-aos="fade-up" data-aos-delay="120">
+          <img src="Sake%20Bowl.png" alt="Sake Bowl" loading="lazy" />
+          <div class="dish-card-body">
+            <p class="dish-kana">鮭丼</p>
+            <h3 class="dish-name">Sake Bowl</h3>
+            <p class="dish-desc">Avocado · Mais · Mango · Paprika · Sushi-Reis · Teriyaki</p>
+            <p class="dish-price">ab € 16</p>
+          </div>
+        </div>
+
+        <!-- Dish 3: Sushi Tower -->
+        <div class="dish-card" tabindex="0" data-aos="fade-up" data-aos-delay="240">
+          <img src="Sushi%20Tower.png" alt="Sushi Tower" loading="lazy" />
+          <div class="dish-card-body">
+            <p class="dish-kana">寿司</p>
+            <h3 class="dish-name">Sushi Tower</h3>
+            <p class="dish-desc">Nigiri · Maki · Inside-Out-Rollen · handgefertigt</p>
+            <p class="dish-price">ab € 5,50</p>
+          </div>
+        </div>
+
+        <!-- Dish 4: Plum Chicken -->
+        <div class="dish-card" tabindex="0" data-aos="fade-up" data-aos-delay="360">
+          <img src="Plum%20Chicken.png" alt="Plum Chicken" loading="lazy" />
+          <div class="dish-card-body">
+            <p class="dish-kana">鶏肉</p>
+            <h3 class="dish-name">Plum Chicken</h3>
+            <p class="dish-desc">Süße Pflaumensoße · buntes Gemüse · Duftreis</p>
+            <p class="dish-price">€ 16</p>
+          </div>
+        </div>
+
+        <!-- Dish 5: Yaki Udon Rindfleisch -->
+        <div class="dish-card" tabindex="0" data-aos="fade-up" data-aos-delay="480">
+          <img src="Yaki%20Udon%20Rindfleisch.png" alt="Yaki Udon Rindfleisch" loading="lazy" />
+          <div class="dish-card-body">
+            <p class="dish-kana">焼うどん</p>
+            <h3 class="dish-name">Yaki Udon Rindfleisch</h3>
+            <p class="dish-desc">Gebratene Udon-Nudeln · Rindfleisch · frisches Gemüse</p>
+            <p class="dish-price">€ 16,90</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Menu note -->
+      <p style="text-align:center;margin-top:3rem;font-size:0.8rem;letter-spacing:0.12em;color:rgba(245,240,232,0.3)" data-aos="fade-up" data-aos-delay="300">
+        Das vollständige Menü wechselt saisonal · Sprechen Sie uns für individuelle Menüwünsche an
+      </p>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <div class="wave-divider" style="background:var(--bg2)">
+    <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
+      <path d="M0,0 C480,28 960,0 1440,20 L1440,28 L0,28 Z" fill="#0a0a0a"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════ KONTAKT ═══════════════════ -->
+  <section id="kontakt">
+    <div class="kontakt-inner">
+
+      <div data-aos="fade-right" data-aos-duration="1000">
+        <p class="section-label" style="margin-bottom:0.8rem">Reservierung &amp; Kontakt</p>
+        <h2 class="section-heading" style="margin-bottom:2rem">
+          Besuchen Sie uns<br/>
+          <em style="font-style:italic;font-size:0.75em;color:var(--gold)">in Hechingen</em>
+        </h2>
+
+        <div class="kontakt-card">
+          <div class="kontakt-item">
+            <div class="kontakt-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </div>
+            <div>
+              <p class="kontakt-label">Adresse</p>
+              <p class="kontakt-value">Obertorpl. 5<br/>72379 Hechingen, Deutschland</p>
+            </div>
+          </div>
+
+          <div class="kontakt-item">
+            <div class="kontakt-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.1 2.18 2 2 0 012.09.05h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.12 6.12l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="kontakt-label">Telefon</p>
+              <p class="kontakt-value"><a href="tel:01733814566">0173 3814566</a></p>
+            </div>
+          </div>
+
+          <div class="kontakt-item">
+            <div class="kontakt-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <p class="kontakt-label">Öffnungszeiten</p>
+              <p class="kontakt-value">Mo – Sa: 12:00 – 22:00 Uhr<br/>Sonntag: 13:00 – 21:00 Uhr</p>
+            </div>
+          </div>
+
+          <a class="btn-call" href="tel:01733814566">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.1 2.18 2 2 0 012.09.05h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.12 6.12l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+            Jetzt anrufen — 0173 3814566
+          </a>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-wrap" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2649.3!2d8.9642!3d48.3536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479a01c5b2a9a1b3%3A0x1234567890abcdef!2sObertorpl.%205%2C%2072379%20Hechingen!5e0!3m2!1sde!2sde!4v1700000000000"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Kaiseki Restaurant Hechingen Standort">
+        </iframe>
+      </div>
+
+    </div>
+
+    <!-- ─── Online-Buchungsmodul ──────────────────────────── -->
+    <div class="res-module" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+
+      <div class="res-module-header">
+        <p class="section-label">Online Reservierung</p>
+        <h2 class="section-heading" style="font-size:clamp(1.8rem,3vw,2.6rem)">
+          Tisch <em style="font-style:italic;color:var(--gold)">reservieren</em>
+        </h2>
+        <div class="gold-rule"></div>
+        <p style="font-size:0.82rem;color:rgba(245,240,232,0.4);letter-spacing:0.06em;margin-top:0.3rem">
+          Wählen Sie Ihr gewünschtes Datum und Ihre Wunschzeit — wir bestätigen per Rückruf.
+        </p>
+      </div>
+
+      <div class="res-form" id="resForm">
+
+        <!-- Schritt 1–3: Personen · Dauer · Datum -->
+        <div class="res-steps-row">
+
+          <!-- Personen -->
+          <div>
+            <p class="res-step-label">
+              <span class="res-step-num">1</span>Personenzahl
+            </p>
+            <div class="res-opts" id="guestOpts">
+              <button class="res-opt" data-val="1">1</button>
+              <button class="res-opt" data-val="2">2</button>
+              <button class="res-opt" data-val="3">3</button>
+              <button class="res-opt" data-val="4">4</button>
+              <button class="res-opt" data-val="5">5</button>
+              <button class="res-opt" data-val="6">6</button>
+              <button class="res-opt" data-val="7">7</button>
+              <button class="res-opt" data-val="8+">8+</button>
+            </div>
+          </div>
+
+          <!-- Dauer -->
+          <div>
+            <p class="res-step-label">
+              <span class="res-step-num">2</span>Aufenthaltsdauer
+            </p>
+            <div class="res-opts" id="durOpts">
+              <button class="res-opt" data-val="60">60 Min</button>
+              <button class="res-opt" data-val="90">90 Min</button>
+              <button class="res-opt" data-val="120">120 Min</button>
+              <button class="res-opt" data-val="150">150 Min</button>
+              <button class="res-opt" data-val="180">180 Min</button>
+            </div>
+          </div>
+
+          <!-- Datum -->
+          <div>
+            <p class="res-step-label">
+              <span class="res-step-num">3</span>Datum wählen
+            </p>
+            <input
+              type="date"
+              id="resDate"
+              class="res-date-input"
+              autocomplete="off"
+            />
+            <p id="resDateHint" style="font-size:0.7rem;color:rgba(245,240,232,0.3);margin-top:0.6rem;letter-spacing:0.05em;min-height:1rem"></p>
+          </div>
+
+        </div>
+
+        <!-- Trennlinie -->
+        <div class="res-divider" id="resDivider1" style="display:none"></div>
+
+        <!-- Schritt 4: Zeitslots -->
+        <div class="res-slots-section" id="resSlotsSection">
+          <p class="res-slots-label">
+            <span class="res-step-num">4</span>Verfügbare Zeitfenster
+          </p>
+          <div class="time-grid" id="timeGrid"></div>
+        </div>
+
+        <!-- Trennlinie -->
+        <div class="res-divider" id="resDivider2" style="display:none"></div>
+
+        <!-- Schritt 5: Kontaktdaten -->
+        <div class="res-contact-section" id="resContactSection">
+          <p class="res-slots-label">
+            <span class="res-step-num">5</span>Ihre Angaben
+          </p>
+
+          <!-- Zusammenfassung -->
+          <div class="res-summary" id="resSummary"></div>
+
+          <div class="res-contact-grid">
+            <div class="res-field">
+              <label for="resName">Name</label>
+              <input type="text" id="resName" placeholder="Ihr vollständiger Name" autocomplete="name" />
+            </div>
+            <div class="res-field">
+              <label for="resPhone">Telefon</label>
+              <input type="tel" id="resPhone" placeholder="Ihre Telefonnummer" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="res-field" style="margin-bottom:2rem">
+            <label for="resNote">Anmerkungen <span style="opacity:0.4;font-size:0.6rem">(optional)</span></label>
+            <textarea id="resNote" rows="2" placeholder="Allergien, besondere Wünsche, Anlässe …"></textarea>
+          </div>
+
+          <button class="res-submit" id="resSubmit" disabled>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              Tisch reservieren
+            </span>
+          </button>
+          <p class="res-note">
+            Ihre Anfrage wird von uns telefonisch bestätigt · Keine Kreditkarte erforderlich<br/>
+            Kostenlose Stornierung bis 24 Stunden vor dem Termin
+          </p>
+        </div>
+
+        <!-- Erfolgsmeldung -->
+        <div class="res-success" id="resSuccess">
+          <div class="res-success-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+          </div>
+          <h3>Reservierungsanfrage gesendet</h3>
+          <p class="res-success-detail" id="resSuccessDetail"></p>
+          <p>Wir melden uns in Kürze telefonisch bei Ihnen, um Ihre Reservierung zu bestätigen.<br/>Wir freuen uns auf Ihren Besuch.</p>
+          <button class="res-opt" style="margin-top:1rem" onclick="resetReservation()">Neue Reservierung</button>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Wave divider: Kontakt → Abholen -->
+  <div class="wave-divider" style="background:var(--bg)">
+    <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
+      <path d="M0,14 C360,28 720,0 1080,18 C1260,26 1360,8 1440,14 L1440,28 L0,28 Z" fill="#111111"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════ BESTELLEN & ABHOLEN ══════════ -->
+  <section id="abholen">
+    <div class="abhol-inner">
+
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-label">Take-Away</p>
+        <h2 class="section-heading">
+          Bestellen &amp; <em style="font-style:italic;color:var(--gold)">Abholen</em>
+        </h2>
+        <div class="gold-rule"></div>
+        <p style="font-size:0.82rem;color:rgba(245,240,232,0.4);letter-spacing:0.06em;margin-top:0.3rem;max-width:520px;text-align:center;line-height:1.8">
+          Wählen Sie Ihre Gerichte, hinterlassen Sie eine Notiz und geben Sie Ihre gewünschte Abholzeit an — wir haben alles für Sie vorbereitet.
+        </p>
+      </div>
+
+      <div class="abhol-layout">
+
+        <!-- ─── Speisekarte ─────────────────────────────── -->
+        <div data-aos="fade-right" data-aos-duration="1000">
+
+          <!-- Speisekarte -->
+          <div class="speise-list" id="speiseList"></div>
+
+        </div>
+
+        <!-- ─── Warenkorb ───────────────────────────────── -->
+        <div class="cart-sticky" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="150">
+          <div class="cart-box" id="cartBox">
+
+            <div class="cart-header">
+              <p class="cart-title">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                Warenkorb
+                <span class="cart-count" id="cartCount">0</span>
+              </p>
+            </div>
+
+            <!-- Cart content (items + total) -->
+            <div id="cartContent">
+              <div class="cart-empty" id="cartEmpty">Noch keine Artikel hinzugefügt</div>
+              <div class="cart-items-list" id="cartItemsList"></div>
+              <div id="cartTotalWrap" style="display:none">
+                <div class="cart-divider"></div>
+                <div class="cart-total-row">
+                  <span class="cart-total-label">Gesamt</span>
+                  <span class="cart-total-price" id="cartTotal">€ 0,00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cart-divider"></div>
+
+            <!-- Abholzeit -->
+            <div class="cart-field">
+              <label>Abholdatum &amp; Zeit</label>
+              <div class="pickup-date-row">
+                <input type="date" id="pickupDate" />
+              </div>
+              <div class="pickup-grid" id="pickupGrid">
+                <p style="font-size:0.72rem;color:rgba(245,240,232,0.25);letter-spacing:0.05em">Bitte zuerst ein Datum wählen</p>
+              </div>
+            </div>
+
+            <div class="cart-divider"></div>
+
+            <!-- Notiz -->
+            <div class="cart-field">
+              <label>Notiz zur Bestellung <span style="opacity:0.4;font-size:0.6rem">(optional)</span></label>
+              <textarea id="orderNote" rows="2" placeholder="Allergien, Sonderwünsche, Portionsgrößen …"></textarea>
+            </div>
+
+            <button class="order-submit" id="orderSubmit" disabled>
+              <span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                Bestellung absenden
+              </span>
+            </button>
+
+            <!-- Erfolgsmeldung -->
+            <div class="order-success" id="orderSuccess">
+              <div class="order-success-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <h4>Bestellung eingegangen</h4>
+              <p class="order-success-detail" id="orderSuccessDetail"></p>
+              <p>Wir bereiten Ihre Bestellung vor und haben alles zur gewünschten Zeit bereit.</p>
+              <button class="res-opt" style="margin-top:0.5rem;font-size:0.75rem" onclick="resetOrder()">Neue Bestellung</button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider: Abholen → Bewertungen -->
+  <div class="wave-divider" style="background:var(--bg3)">
+    <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
+      <path d="M0,20 C360,0 720,28 1080,8 C1260,0 1360,20 1440,14 L1440,28 L0,28 Z" fill="#0a0a0a"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════ BEWERTUNGEN ═══════════════ -->
+  <section id="bewertungen">
+    <div class="reviews-inner">
+      <div class="section-header" data-aos="fade-up">
+        <p class="section-label">Was unsere Gäste sagen</p>
+        <h2 class="section-heading">Bewertungen</h2>
+        <div class="gold-rule"></div>
+      </div>
+
+      <div class="review-grid">
+
+        <div class="review-card" data-aos="fade-up" data-aos-delay="0">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">
+            „Ein unvergessliches Erlebnis. Die Präsentation jedes Ganges war wie Kunst —
+            und der Geschmack hat diese Erwartung bei weitem übertroffen."
+          </p>
+          <div class="review-author">
+            <div class="review-avatar">M</div>
+            <div>
+              <p class="review-name">Marie K.</p>
+              <p class="review-date">Vor 2 Wochen · Google</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card" data-aos="fade-up" data-aos-delay="120">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">
+            „Selten erlebt man in Deutschland diese Kombination aus Atmosphäre, Service und
+            kulinarischer Tiefe. Das Wagyu-Tatar ist außergewöhnlich."
+          </p>
+          <div class="review-author">
+            <div class="review-avatar">T</div>
+            <div>
+              <p class="review-name">Thomas R.</p>
+              <p class="review-date">Vor 1 Monat · Google</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card" data-aos="fade-up" data-aos-delay="240">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">
+            „Das Kaiseki in Hechingen ist mein absolutes Lieblingsrestaurant. Jeder Besuch
+            fühlt sich wie ein kleines Fest an. Die Gyoza mit Trüffel sind unvergleichlich."
+          </p>
+          <div class="review-author">
+            <div class="review-avatar">S</div>
+            <div>
+              <p class="review-name">Sophie L.</p>
+              <p class="review-date">Vor 3 Wochen · Google</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="reviews-total" data-aos="fade-up" data-aos-delay="300">
+        <p>4,8 ★ bei Google · 111 Bewertungen</p>
+        <a href="https://maps.google.com" target="_blank" rel="noopener">Alle Bewertungen auf Google Maps ansehen &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wave divider -->
+  <div class="wave-divider" style="background:var(--bg)">
+    <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
+      <path d="M0,8 C480,28 960,0 1440,18 L1440,28 L0,28 Z" fill="#161616"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════════════════ FOOTER ════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="Kaiseki_Logo1.png" alt="Kaiseki Restaurant" />
+      </div>
+      <div class="gold-rule"></div>
+      <p class="footer-info">
+        Obertorpl. 5 · 72379 Hechingen · Deutschland<br/>
+        <a href="tel:01733814566" style="color:inherit;text-decoration:none">0173 3814566</a>
+      </p>
+      <div class="footer-socials">
+        <!-- Instagram -->
+        <a class="social-icon" href="#" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a class="social-icon" href="#" aria-label="Facebook" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+          </svg>
+        </a>
+      </div>
+      <p class="footer-copy">© 2025 Kaiseki Restaurant Hechingen · Alle Rechte vorbehalten</p>
+    </div>
+  </footer>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <script>
+  // ─── Logo: weißen Hintergrund entfernen, Linien gold einfärben ─
+  (function() {
+    const GOLD = { r: 201, g: 168, b: 76 }; // #c9a84c
+
+    function processLogoImage(src, callback) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width  = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const d = imageData.data;
+
+        for (let i = 0; i < d.length; i += 4) {
+          const lum = d[i] * 0.299 + d[i+1] * 0.587 + d[i+2] * 0.114;
+          if (lum > 210) {
+            // Nahezu weiß → transparent
+            d[i+3] = 0;
+          } else {
+            // Dunkle Pixel → gold, Stärke proportional zur Dunkelheit
+            const alpha = Math.round((1 - lum / 255) * d[i+3]);
+            d[i]   = GOLD.r;
+            d[i+1] = GOLD.g;
+            d[i+2] = GOLD.b;
+            d[i+3] = alpha;
+          }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+        callback(canvas.toDataURL('image/png'));
+      };
+      img.src = src;
+    }
+
+    function applyProcessedLogo(dataUrl) {
+      document.querySelectorAll('img[src="Kaiseki_Logo1.png"]').forEach(function(el) {
+        const anim = el.style.animation;
+        el.src = dataUrl;
+        if (anim) el.style.animation = anim; // Animation beibehalten
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        processLogoImage('Kaiseki_Logo1.png', applyProcessedLogo);
+      });
+    } else {
+      processLogoImage('Kaiseki_Logo1.png', applyProcessedLogo);
+    }
+  })();
+
+  // ─── AOS Init ──────────────────────────────────────────────
+  AOS.init({ duration: 900, easing: 'ease-out-cubic', once: true, offset: 60 });
+
+  // ─── Navbar scroll ─────────────────────────────────────────
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ─── Hero parallax ─────────────────────────────────────────
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    heroBg.style.transform = `translateY(${y * 0.28}px) scale(1.08)`;
+  }, { passive: true });
+
+  // ─── Hero title letter animation ───────────────────────────
+  const title   = document.getElementById('heroTitle');
+  const letters = 'KAISEKI'.split('');
+  letters.forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.textContent = ch;
+    span.style.animation = `letterIn 0.7s cubic-bezier(0.22,0.61,0.36,1) ${0.9 + i * 0.1}s forwards`;
+    title.appendChild(span);
+    if (i < letters.length - 1) {
+      // small space between letters via letter-spacing handled by CSS
+    }
+  });
+  title.style.letterSpacing = '0.35em';
+
+  // ─── Cherry blossom petals ─────────────────────────────────
+  const petalsWrap = document.getElementById('petals');
+  const PETAL_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C9 2 7 5 8 8C5 7 2 9 2 12C2 15 5 17 8 16C7 19 9 22 12 22C15 22 17 19 16 16C19 17 22 15 22 12C22 9 19 7 16 8C17 5 15 2 12 2Z"
+      fill="#8b0000" opacity="0.7"/>
+    <circle cx="12" cy="12" r="1.5" fill="#c9a84c" opacity="0.9"/>
+  </svg>`;
+
+  function spawnPetal() {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.innerHTML = PETAL_SVG;
+    const left    = Math.random() * 100;
+    const dur     = 10 + Math.random() * 12;
+    const delay   = Math.random() * 8;
+    const size    = 8 + Math.random() * 10;
+    p.style.cssText = `left:${left}%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${delay}s`;
+    petalsWrap.appendChild(p);
+    setTimeout(() => p.remove(), (dur + delay) * 1000 + 500);
+  }
+  for (let i = 0; i < 14; i++) spawnPetal();
+  setInterval(() => { if (petalsWrap.children.length < 18) spawnPetal(); }, 2200);
+
+  // ─── Mobile menu ───────────────────────────────────────────
+  const hamburger   = document.getElementById('hamburger');
+  const mobileMenu  = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  // ─── Hero bg scale-in ──────────────────────────────────────
+  setTimeout(() => heroBg.classList.add('loaded'), 50);
+
+  // ─── Hero slideshow ────────────────────────────────────────
+  (function() {
+    const slides = document.querySelectorAll('.hero-slide');
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 15000);
+  })();
+
+  // ════════════════════════════════════════════════════════
+  // BESTELLEN & ABHOLEN
+  // ════════════════════════════════════════════════════════
+  (function() {
+    // ─ Vollständige Speisekarte ───────────────────────────
+    const MENU = [
+      // Vorspeisen
+      {id:1,  cat:'Vorspeisen',            nr:'01', name:'Edamame',                       desc:'Grüne Sojabohnen mit Meersalz, blanchiert',                                                      price:5.90},
+      {id:2,  cat:'Vorspeisen',            nr:'02', name:'Chicken Saté',                  desc:'Hühner-Spieße mariniert in vietnamesischen Kräutern',                                            price:5.90},
+      {id:3,  cat:'Vorspeisen',            nr:'03', name:'Nem Chay (7 Stk.)',              desc:'Gebackene vegetarische Frühlingsrollen mit Gemüse',                                              price:5.00},
+      {id:4,  cat:'Vorspeisen',            nr:'04', name:'Nem Ran (2 Stk.)',               desc:'Gebackene hausgemachte Frühlingsrollen mit Hühnerfleisch, Garnelen, Glasnudeln, Morcheln',      price:6.50},
+      {id:5,  cat:'Vorspeisen',            nr:'05', name:'Gyoza (5 Stk.)',                 desc:'Frittierte Teigtaschen mit Gemüse und Hühnerfleisch, süßsaure Soße, Sesam',                    price:6.90},
+      {id:6,  cat:'Vorspeisen',            nr:'06', name:'Goi Cuon (2 Stk.)',              desc:'Sommerrollen in Reisblättern mit Salat, vietnamesischen Kräutern, Reisnudeln, Erdnuss-Soße',   price:5.00},
+      {id:7,  cat:'Vorspeisen',            nr:'07', name:'Tom Chien (4 Stk.)',             desc:'Hausgemachte frittierte Garnelen mit süßsaurer Soße',                                           price:6.90},
+      {id:8,  cat:'Vorspeisen',            nr:'08', name:'Wantan Chien (5 Stk.)',          desc:'Hausgemachte frittierte Teigtaschen mit Hühnerfleisch',                                         price:6.90},
+      {id:9,  cat:'Vorspeisen',            nr:'09', name:'Süßkartoffelpommes',             desc:'Süßkartoffel-Pommes',                                                                            price:5.00},
+      {id:10, cat:'Vorspeisen',            nr:'10', name:'Love to Share (für 2 Pers.)',    desc:'Gemischte Vorspeisenplatte: Nem Ran, Goi Cuon, Hühnerspieß, Wantan Chien, Edamame',            price:18.50},
+      // Salat
+      {id:11, cat:'Salat',                 nr:'11', name:'Goma Wakame Algensalat',         desc:'Algensalat mit Sesam',                                                                           price:7.00},
+      {id:12, cat:'Salat',                 nr:'12', name:'Mango Salat',                    desc:'Mangostreifen, Karotten, Erdnüsse, Röstzwiebeln, hausgemachtes Dressing; wahlweise mit Garnelen',price:7.90},
+      {id:13, cat:'Salat',                 nr:'13', name:'Gemischter Salat',               desc:'Marktfrisches Gemüse, Sesam- oder Joghurt-Dressing',                                            price:6.50},
+      // Suppe
+      {id:21, cat:'Suppe',                 nr:'21', name:'Miso Suppe',                     desc:'Japanische Miso-Suppe mit Tofu, Seetang, Lauchzwiebeln und Miso-Paste',                        price:5.00},
+      {id:22, cat:'Suppe',                 nr:'22', name:'Miso Sake Suppe',                desc:'Lachs, Seetang, Lauchzwiebeln und Miso-Paste',                                                  price:6.00},
+      {id:23, cat:'Suppe',                 nr:'23', name:'Tom Yum Suppe',                  desc:'Leicht scharf, Thai-Brühe, Tom-Yum-Paste, Zitronengras, Galgant, Limettenblätter',             price:5.50},
+      {id:24, cat:'Suppe',                 nr:'24', name:'Tom Kha Gai Suppe',              desc:'Leicht scharf, cremige Kokossuppe nach Thai-Art; mit Hühnerfleisch / Garnelen',                price:5.50},
+      // Pho Hanoi
+      {id:31, cat:'Pho Hanoi',             nr:'31', name:'Pho Tofu',                       desc:'Reisbandnudeln, frische Brühe, vietnamesische Gewürze und Kräuter',                            price:15.00},
+      {id:32, cat:'Pho Hanoi',             nr:'32', name:'Pho Ga',                         desc:'Reisbandnudeln, frische Brühe, vietnamesische Gewürze und Kräuter; mit Hühnerfleisch',         price:16.00},
+      {id:33, cat:'Pho Hanoi',             nr:'33', name:'Pho Bo',                         desc:'Reisbandnudeln, frische Brühe, vietnamesische Gewürze und Kräuter; mit Rindfleisch',           price:16.00},
+      {id:34, cat:'Pho Hanoi',             nr:'34', name:'Pho Bo + Ga',                    desc:'Reisbandnudeln, frische Brühe, vietnamesische Gewürze und Kräuter; gemischtes Fleisch',        price:16.00},
+      // Pho Xao
+      {id:35, cat:'Pho Xao',               nr:'35', name:'Pho Xao Tofu',                   desc:'Gebratene Reisbandnudeln, Gemüse, Röstzwiebeln, Erdnüsse, Kräuter, Tofu im Tempura-Mantel',   price:15.50},
+      {id:36, cat:'Pho Xao',               nr:'36', name:'Pho Xao Hühnerfleisch',          desc:'Gebratene Reisbandnudeln, Gemüse, Röstzwiebeln, Erdnüsse, Kräuter',                           price:16.00},
+      {id:37, cat:'Pho Xao',               nr:'37', name:'Pho Xao Rindfleisch',            desc:'Gebratene Reisbandnudeln, Gemüse, Röstzwiebeln, Erdnüsse, Kräuter',                           price:16.90},
+      {id:38, cat:'Pho Xao',               nr:'38', name:'Pho Xao Knusprige Ente',         desc:'Gebratene Reisbandnudeln, Gemüse, Röstzwiebeln, Erdnüsse, Kräuter',                           price:17.90},
+      {id:39, cat:'Pho Xao',               nr:'39', name:'Pho Xao Garnelen',               desc:'Gebratene Reisbandnudeln, Gemüse, Röstzwiebeln, Erdnüsse, Kräuter',                           price:17.90},
+      // Bun
+      {id:41, cat:'Bun',                   nr:'41', name:'Bun Tofu',                        desc:'Lauwarme Reisnudeln, Salat, Kräuter, Röstzwiebeln, Erdnüsse, Dressing; Tofu im Tempura-Mantel',price:15.50},
+      {id:42, cat:'Bun',                   nr:'42', name:'Bun Hühnerfleisch',               desc:'Lauwarme Reisnudeln, Salat, Kräuter, Röstzwiebeln, Erdnüsse, Dressing',                      price:16.00},
+      {id:43, cat:'Bun',                   nr:'43', name:'Bun Rindfleisch',                 desc:'Lauwarme Reisnudeln, Salat, Kräuter, Röstzwiebeln, Erdnüsse, Dressing; Zitronengrasmarinade',price:16.90},
+      {id:44, cat:'Bun',                   nr:'44', name:'Bun Knusprige Ente',              desc:'Lauwarme Reisnudeln, Salat, Kräuter, Röstzwiebeln, Erdnüsse, Dressing',                      price:17.90},
+      {id:45, cat:'Bun',                   nr:'45', name:'Bun Garnelen',                    desc:'Lauwarme Reisnudeln, Salat, Kräuter, Röstzwiebeln, Erdnüsse, Dressing',                      price:17.90},
+      {id:46, cat:'Bun',                   nr:'46', name:'Bun Frühlingsrollen',             desc:'Lauwarme Reisnudeln, Salat, Kräuter, Röstzwiebeln, Erdnüsse, Dressing',                      price:16.00},
+      {id:47, cat:'Bun',                   nr:'47', name:'Bo La Lot',                       desc:'Rindfleisch eingewickelt und gegrillt in Betelblättern',                                       price:16.00},
+      // Yaki Udon
+      {id:51, cat:'Yaki Udon',             nr:'51', name:'Yaki Udon Tofu',                  desc:'Japanisches Gericht mit gebratenen Udon-Nudeln',                                               price:15.00},
+      {id:52, cat:'Yaki Udon',             nr:'52', name:'Yaki Udon Hähnchen',              desc:'Japanisches Gericht mit gebratenen Udon-Nudeln',                                               price:16.00},
+      {id:53, cat:'Yaki Udon',             nr:'53', name:'Yaki Udon Rindfleisch',           desc:'Japanisches Gericht mit gebratenen Udon-Nudeln',                                               price:16.90},
+      {id:54, cat:'Yaki Udon',             nr:'54', name:'Yaki Udon Knusprige Ente',        desc:'Japanisches Gericht mit gebratenen Udon-Nudeln',                                               price:null},
+      {id:55, cat:'Yaki Udon',             nr:'55', name:'Yaki Udon Garnelen',              desc:'Japanisches Gericht mit gebratenen Udon-Nudeln',                                               price:null},
+      {id:56, cat:'Yaki Udon',             nr:'56', name:'Yaki Udon Lachs',                 desc:'Japanisches Gericht mit gebratenen Udon-Nudeln',                                               price:null},
+      // Chicken
+      {id:61, cat:'Chicken',               nr:'61', name:'Plum Chicken',                    desc:'Süße Pflaumensoße, verschiedenes Gemüse, Duftreis',                                            price:16.00},
+      {id:62, cat:'Chicken',               nr:'62', name:'Mango Chicken',                   desc:'Cremige Mango-Soße, verschiedenes Gemüse, Duftreis',                                           price:16.00},
+      {id:63, cat:'Chicken',               nr:'63', name:'Peanut Chicken',                  desc:'Erdnusssoße, verschiedenes Gemüse, Duftreis',                                                  price:16.00},
+      {id:64, cat:'Chicken',               nr:'64', name:'Cari Chicken',                    desc:'Kokosmilch-Currysoße nach Thai-Art, leicht scharf, verschiedenes Gemüse, Duftreis',           price:16.00},
+      {id:65, cat:'Chicken',               nr:'65', name:'Pepper Chicken',                  desc:'Black Pepper-Soße nach japanischer Art, leicht scharf, verschiedenes Gemüse, Duftreis',       price:16.00},
+      // Duck
+      {id:71, cat:'Duck',                  nr:'71', name:'Plum Duck',                       desc:'Süße Pflaumensoße, verschiedenes Gemüse, Duftreis',                                            price:17.90},
+      {id:72, cat:'Duck',                  nr:'72', name:'Mango Duck',                      desc:'Cremige Mango-Soße, verschiedenes Gemüse, Duftreis',                                           price:17.90},
+      {id:73, cat:'Duck',                  nr:'73', name:'Peanut Duck',                     desc:'Erdnusssoße, verschiedenes Gemüse, Duftreis',                                                  price:17.90},
+      {id:74, cat:'Duck',                  nr:'74', name:'Cari Duck',                       desc:'Kokosmilch-Currysoße nach Thai-Art, leicht scharf, verschiedenes Gemüse, Duftreis',           price:17.90},
+      {id:75, cat:'Duck',                  nr:'75', name:'Pepper Duck',                     desc:'Black Pepper-Soße nach japanischer Art, leicht scharf, Duftreis',                             price:17.90},
+      // Beef
+      {id:81, cat:'Beef',                  nr:'81', name:'Plum Beef',                       desc:'Süße Pflaumensoße, verschiedenes Gemüse, Duftreis',                                            price:16.90},
+      {id:82, cat:'Beef',                  nr:'82', name:'Mango Beef',                      desc:'Cremige Mango-Soße, verschiedenes Gemüse, Duftreis',                                           price:16.90},
+      {id:84, cat:'Beef',                  nr:'84', name:'Cari Beef',                       desc:'Kokosmilch-Currysoße nach Thai-Art, leicht scharf, verschiedenes Gemüse, Duftreis',           price:16.90},
+      {id:85, cat:'Beef',                  nr:'85', name:'Pepper Beef',                     desc:'Black Pepper-Soße nach japanischer Art, leicht scharf, verschiedenes Gemüse, Duftreis',       price:16.90},
+      // Vegetarisch
+      {id:101,cat:'Vegetarisch',           nr:'101',name:'Plum Tofu',                       desc:'Süße Pflaumensoße, verschiedenes Gemüse, Duftreis',                                            price:15.00},
+      {id:102,cat:'Vegetarisch',           nr:'102',name:'Mango Tofu',                      desc:'Cremige Mango-Soße, verschiedenes Gemüse, Duftreis',                                           price:15.00},
+      {id:103,cat:'Vegetarisch',           nr:'103',name:'Peanut Tofu',                     desc:'Erdnusssoße, verschiedenes Gemüse, Duftreis',                                                  price:15.00},
+      {id:104,cat:'Vegetarisch',           nr:'104',name:'Cari Tofu',                       desc:'Kokosmilch-Currysoße nach Thai-Art, leicht scharf, verschiedenes Gemüse, Duftreis',           price:15.00},
+      {id:105,cat:'Vegetarisch',           nr:'105',name:'Pepper Tofu',                     desc:'Black Pepper-Soße nach japanischer Art, leicht scharf, verschiedenes Gemüse, Duftreis',       price:15.00},
+      // Nigiri
+      {id:111,cat:'Sushi – Nigiri',        nr:'111',name:'Avocado Nigiri',                  desc:'Nigiri mit Avocado',                                                                            price:4.50},
+      {id:112,cat:'Sushi – Nigiri',        nr:'112',name:'Kani Nigiri',                     desc:'Surimi',                                                                                        price:4.50},
+      {id:113,cat:'Sushi – Nigiri',        nr:'113',name:'Daikon Nigiri',                   desc:'Eingelegter Rettich',                                                                           price:5.00},
+      {id:114,cat:'Sushi – Nigiri',        nr:'114',name:'Maguro Nigiri',                   desc:'Thunfisch',                                                                                     price:6.00},
+      {id:115,cat:'Sushi – Nigiri',        nr:'115',name:'Maguro Tataki Nigiri',            desc:'Flambierter Thunfisch',                                                                         price:6.00},
+      {id:116,cat:'Sushi – Nigiri',        nr:'116',name:'Ebi Nigiri',                      desc:'Scampi, gekochte Garnelen',                                                                     price:6.00},
+      {id:117,cat:'Sushi – Nigiri',        nr:'117',name:'Unagi Nigiri',                    desc:'Aal',                                                                                           price:6.00},
+      {id:118,cat:'Sushi – Nigiri',        nr:'118',name:'Sake Nigiri',                     desc:'Lachs',                                                                                         price:5.50},
+      {id:119,cat:'Sushi – Nigiri',        nr:'119',name:'Sake Tataki Nigiri',              desc:'Flambierter Lachs',                                                                             price:6.00},
+      // Maki
+      {id:121,cat:'Sushi – Maki',          nr:'121',name:'Mango Maki',                      desc:'Maki mit Mango',                                                                                price:5.50},
+      {id:122,cat:'Sushi – Maki',          nr:'122',name:'Paprika Maki',                    desc:'Maki mit Paprika',                                                                              price:5.50},
+      {id:123,cat:'Sushi – Maki',          nr:'123',name:'Kappa Maki',                      desc:'Gurken-Maki',                                                                                   price:5.50},
+      {id:124,cat:'Sushi – Maki',          nr:'124',name:'Avocado Maki',                    desc:'Maki mit Avocado',                                                                              price:5.50},
+      {id:125,cat:'Sushi – Maki',          nr:'125',name:'Oshinko Maki',                    desc:'Eingelegter Rettich',                                                                           price:5.50},
+      {id:126,cat:'Sushi – Maki',          nr:'126',name:'Sake Avocado Maki',               desc:'Lachs, Avocado',                                                                                price:6.50},
+      {id:127,cat:'Sushi – Maki',          nr:'127',name:'Sake Maki',                       desc:'Lachs',                                                                                         price:6.50},
+      {id:128,cat:'Sushi – Maki',          nr:'128',name:'Spicy Sake Maki',                 desc:'Lachs, Lauchzwiebeln, scharf',                                                                  price:6.50},
+      {id:129,cat:'Sushi – Maki',          nr:'129',name:'Tekka Maki',                      desc:'Thunfisch',                                                                                     price:null},
+      {id:130,cat:'Sushi – Maki',          nr:'130',name:'Spicy Tuna Maki',                 desc:'Thunfisch, scharf',                                                                             price:null},
+      {id:131,cat:'Sushi – Maki',          nr:'131',name:'Tekka Negi Maki',                 desc:'Gekochter Thunfisch mit Mayo, Zwiebeln',                                                        price:null},
+      {id:132,cat:'Sushi – Maki',          nr:'132',name:'Tempura Ebi Maki',                desc:'Scampi, panierte Garnelen',                                                                     price:null},
+      {id:133,cat:'Sushi – Maki',          nr:'133',name:'Kani Maki',                       desc:'Surimi (Krebsfleisch)',                                                                         price:null},
+      {id:134,cat:'Sushi – Maki',          nr:'134',name:'Unagi Maki',                      desc:'Aal',                                                                                           price:null},
+      // Inside-Out
+      {id:141,cat:'Sushi – Inside-Out',    nr:'141',name:'Alaska',                          desc:'Lachs, Avocado, Philadelphia, Sesam',                                                           price:9.50},
+      {id:142,cat:'Sushi – Inside-Out',    nr:'142',name:'Sakekawa',                        desc:'Panierter Lachs, Avocado, Philadelphia, Sesam',                                                 price:9.90},
+      {id:143,cat:'Sushi – Inside-Out',    nr:'143',name:'Spicy Sake',                      desc:'Scharfer Lachs, Gurke, Philadelphia, Sesam',                                                    price:9.90},
+      {id:144,cat:'Sushi – Inside-Out',    nr:'144',name:'Tori Karaage',                    desc:'Paniertes Hühnerbrustfilet, Gurke, Mayo, Sesam',                                               price:9.90},
+      {id:145,cat:'Sushi – Inside-Out',    nr:'145',name:'California',                      desc:'Surimi, Avocado, Philadelphia, Sesam',                                                          price:9.00},
+      {id:146,cat:'Sushi – Inside-Out',    nr:'146',name:'California Masago',               desc:'Surimi, Avocado, Fischrogen, Philadelphia, Sesam',                                              price:9.90},
+      {id:147,cat:'Sushi – Inside-Out',    nr:'147',name:'Tekka Roll',                      desc:'Thunfisch, Avocado, Philadelphia, Sesam',                                                       price:9.90},
+      {id:148,cat:'Sushi – Inside-Out',    nr:'148',name:'Sake Philadelphia',               desc:'Lachs, Gurke, Philadelphia, Sesam',                                                             price:9.90},
+      {id:149,cat:'Sushi – Inside-Out',    nr:'149',name:'Alaska Masago',                   desc:'Lachs, Avocado, Philadelphia, Fischrogen, Sesam',                                               price:9.90},
+      {id:150,cat:'Sushi – Inside-Out',    nr:'150',name:'Tuna Philadelphia',               desc:'Thunfisch, Gurke, Philadelphia, Sesam',                                                         price:9.90},
+      {id:151,cat:'Sushi – Inside-Out',    nr:'151',name:'Unagi Roll',                      desc:'Flussaal, Avocado, Philadelphia, Sesam',                                                        price:10.90},
+      {id:152,cat:'Sushi – Inside-Out',    nr:'152',name:'Ebi Tempura Roll',                desc:'Panierte Garnelen, Avocado, Philadelphia, Sesam',                                               price:10.90},
+      {id:153,cat:'Sushi – Inside-Out',    nr:'153',name:'Mango Roll',                      desc:'Mango, Paprika, Gurke, Philadelphia, Sesam',                                                    price:8.90},
+      {id:154,cat:'Sushi – Inside-Out',    nr:'154',name:'Avocado Roll',                    desc:'Avocado, Philadelphia, Sesam',                                                                  price:8.90},
+      {id:155,cat:'Sushi – Inside-Out',    nr:'155',name:'Kappa Roll',                      desc:'Gurken, Philadelphia, Sesam',                                                                   price:8.90},
+      // Gegrillte I.O
+      {id:161,cat:'Sushi – Gegrillte I.O', nr:'161',name:'Salmon Tataki',                   desc:'Gegrillter Lachs, Philadelphia, Avocado, Sesam',                                               price:null},
+      {id:162,cat:'Sushi – Gegrillte I.O', nr:'162',name:'Salmon Tataki Masago',            desc:'Gegrillter Lachs, Avocado, Philadelphia, Fischrogen',                                           price:null},
+      {id:163,cat:'Sushi – Gegrillte I.O', nr:'163',name:'Tuna Tataki',                     desc:'Gegrillter Thunfisch, Avocado, Philadelphia, Sesam',                                            price:null},
+      {id:164,cat:'Sushi – Gegrillte I.O', nr:'164',name:'Tuna Tataki Masago',              desc:'Gegrillter Thunfisch, Avocado, Philadelphia, Sesam und Fischrogen',                             price:null},
+      {id:165,cat:'Sushi – Gegrillte I.O', nr:'165',name:'Ebi Tataki',                      desc:'Gegrillte Garnelen, Mayo, Avocado, Sesam',                                                      price:null},
+      {id:166,cat:'Sushi – Gegrillte I.O', nr:'166',name:'Ebi Tataki Masago',               desc:'Gegrillte Garnelen, Mayo, Avocado, Sesam und Fischrogen',                                       price:null},
+      {id:167,cat:'Sushi – Gegrillte I.O', nr:'167',name:'Tori Tataki Sesam',               desc:'Gegrilltes Hühnerfleisch, Mayo, Gurke, Sesam',                                                 price:null},
+      // Futo Roll
+      {id:171,cat:'Sushi – Futo Roll',     nr:'171',name:'Olanka',                          desc:'Gekochter Thunfisch, Lauch, Mayo, Chili, Avocado-Mantel',                                      price:null},
+      {id:172,cat:'Sushi – Futo Roll',     nr:'172',name:'Crunchy',                         desc:'Gekochte Garnelen, Aal, Philadelphia, Avocado-Mantel',                                          price:null},
+      {id:173,cat:'Sushi – Futo Roll',     nr:'173',name:'Sakura',                          desc:'Lachs, Avocado, Gurke, Philadelphia, Masago, Lachs-Mantel',                                     price:null},
+      {id:174,cat:'Sushi – Futo Roll',     nr:'174',name:'Lachs Tempura',                   desc:'Panierter Lachs, Avocado, Gurke',                                                               price:null},
+      {id:175,cat:'Sushi – Futo Roll',     nr:'175',name:'Ebi Tempura',                     desc:'Panierte Garnelen, Avocado, Gurke',                                                             price:null},
+      {id:176,cat:'Sushi – Futo Roll',     nr:'176',name:'Buddha Futo Roll',                desc:'Reisrolle, Avocado, Gurke, Rettich, Mango, Fischrogen, Sesam',                                 price:null},
+      // Tempura Maki
+      {id:181,cat:'Sushi – Tempura Maki',  nr:'181',name:'Sake Roll',                       desc:'Panierte Maki mit Lachs, Avocado',                                                              price:7.50},
+      {id:182,cat:'Sushi – Tempura Maki',  nr:'182',name:'Tuna Roll',                       desc:'Panierte Maki mit gekochtem Thunfisch',                                                         price:7.50},
+      {id:183,cat:'Sushi – Tempura Maki',  nr:'183',name:'Veggie Roll',                     desc:'Panierte Maki mit Avocado',                                                                     price:6.90},
+      {id:184,cat:'Sushi – Tempura Maki',  nr:'184',name:'Tempel Roll',                     desc:'Panierte Maki mit Mango, Gurke',                                                                price:6.90},
+      // Tempura Big Roll
+      {id:191,cat:'Sushi – Tempura Big Roll',nr:'191',name:'Alaska Roll',                   desc:'Panierte Rolle mit Lachs, Avocado, Philadelphia',                                               price:11.90},
+      {id:192,cat:'Sushi – Tempura Big Roll',nr:'192',name:'Tokyo Roll',                    desc:'Panierte Rolle mit Garnelen, Avocado, Masago, Fischrogen, Philadelphia',                        price:11.90},
+      {id:193,cat:'Sushi – Tempura Big Roll',nr:'193',name:'Fujosama Roll',                 desc:'Gekochter Thunfisch, Lauch, Gurke, Philadelphia',                                               price:11.90},
+      {id:194,cat:'Sushi – Tempura Big Roll',nr:'194',name:'Xakitori Roll',                 desc:'Lachs, Surimi, Avocado, Gurke',                                                                 price:11.90},
+      {id:195,cat:'Sushi – Tempura Big Roll',nr:'195',name:'Spicy Tuna Roll',               desc:'Thunfisch, Lauch, Chili, Gurke',                                                                price:11.90},
+      {id:196,cat:'Sushi – Tempura Big Roll',nr:'196',name:'Buddha Roll',                   desc:'Panierte Rolle mit Avocado, Gurke, Rettich, Mango',                                             price:10.90},
+      {id:197,cat:'Sushi – Tempura Big Roll',nr:'197',name:'Tempel Roll',                   desc:'Panierte Rolle mit Mango, Paprika, Gurke',                                                      price:10.90},
+      {id:198,cat:'Sushi – Tempura Big Roll',nr:'198',name:'Ebi Roll',                      desc:'Ebi Tempura, Mango, Avocado, Fischrogen, Philadelphia',                                         price:11.90},
+      {id:199,cat:'Sushi – Tempura Big Roll',nr:'199',name:'Karaage Roll',                  desc:'Panierte Rolle mit Hühnerfleisch, Gurke, Mayo',                                                 price:11.90},
+      // Special Roll
+      {id:201,cat:'Sushi – Special Roll',  nr:'201',name:'Salmon on Fire',                  desc:'Lachs, Mango, Gurke, Philadelphia, umwickelt mit flambiertem Lachs',                           price:null},
+      {id:202,cat:'Sushi – Special Roll',  nr:'202',name:'Tuna on Fire',                    desc:'Thunfisch, Mango, Gurke, Philadelphia, umwickelt mit flambiertem Thunfisch',                    price:null},
+      {id:203,cat:'Sushi – Special Roll',  nr:'203',name:'Rainbow',                         desc:'Lachs Tempura, Mango, Gurke, Philadelphia, umwickelt mit Lachs, Thunfisch, Avocado',           price:null},
+      {id:204,cat:'Sushi – Special Roll',  nr:'204',name:'Tokyo by Night',                  desc:'Ebi Tempura, Gurke, Philadelphia, umwickelt mit Mango',                                         price:null},
+      {id:205,cat:'Sushi – Special Roll',  nr:'205',name:'White Tiger',                     desc:'Ebi Tempura, Avocado, Mayo, umwickelt mit Garnelen',                                            price:null},
+      {id:206,cat:'Sushi – Special Roll',  nr:'206',name:'Sake-Tuna-Tataki',                desc:'Flambierter Lachs, Avocado, Gurke, Philadelphia, umwickelt mit Tuna-Tataki',                    price:null},
+      {id:207,cat:'Sushi – Special Roll',  nr:'207',name:'Green Dragon',                    desc:'Ebi Tempura, Mango, Gurke, Philadelphia, umwickelt mit Avocado',                                price:null},
+      {id:208,cat:'Sushi – Special Roll',  nr:'208',name:'Black Panther',                   desc:'Flussaal, Gurke, Paprika, umwickelt mit flambiertem Aal',                                       price:null},
+      {id:209,cat:'Sushi – Special Roll',  nr:'209',name:'Green Lady',                      desc:'Panierte Avocado, Philadelphia, mit Avocado-Mantel',                                            price:null},
+      {id:210,cat:'Sushi – Special Roll',  nr:'210',name:'Rose Garden',                     desc:'Mango, Paprika, Gurke, Philadelphia, umwickelt mit Mango',                                      price:null},
+      // Sashimi
+      {id:211,cat:'Sushi – Sashimi',       nr:'211',name:'Sake Aburi (4 Stk.)',              desc:'Kurz flambierter Lachs, Zitronen, Seetang-Salat, Sesam, Teriyaki-Soße',                       price:11.90},
+      {id:212,cat:'Sushi – Sashimi',       nr:'212',name:'Tuna Aburi (4 Stk.)',              desc:'Kurz flambierter Thunfisch, Zitronen, Seetang-Salat, Sesam',                                   price:12.90},
+      {id:213,cat:'Sushi – Sashimi',       nr:'213',name:'Sake Sashimi (8 Stk.)',            desc:'Lachs',                                                                                         price:19.90},
+      {id:214,cat:'Sushi – Sashimi',       nr:'214',name:'Tuna Sashimi (8 Stk.)',            desc:'Thunfisch',                                                                                     price:23.90},
+      {id:215,cat:'Sushi – Sashimi',       nr:'215',name:'Sake-Tuna Sashimi',                desc:'Lachs und Thunfisch',                                                                           price:21.90},
+      // Sushi-Bowl
+      {id:221,cat:'Sushi-Bowl',            nr:'221',name:'Sake Bowl',                        desc:'Avocado, Mais, Gurke, Ingwer, Paprika, Mango, Sushi-Reis, Salat, Teriyaki, Cocktail-Soße',   price:null},
+      {id:222,cat:'Sushi-Bowl',            nr:'222',name:'Flambierter Sake Bowl',            desc:'Wie Sake Bowl, mit flambiertem Lachs',                                                          price:null},
+      {id:223,cat:'Sushi-Bowl',            nr:'223',name:'Thunfisch Bowl',                   desc:'Wie Sake Bowl, mit Thunfisch',                                                                  price:null},
+      {id:224,cat:'Sushi-Bowl',            nr:'224',name:'Ebi Tempura Bowl',                 desc:'Wie Sake Bowl, mit Ebi Tempura',                                                                price:null},
+      {id:225,cat:'Sushi-Bowl',            nr:'225',name:'Veggie Bowl',                      desc:'Wie Sake Bowl, vegetarisch',                                                                    price:null},
+      // Nachtisch
+      {id:231,cat:'Nachtisch',             nr:'231',name:'Gebackene Bananen (3 Stk.)',        desc:'Gebackene Bananen mit Honig',                                                                   price:5.90},
+      {id:232,cat:'Nachtisch',             nr:'232',name:'Sesambällchen (3 Stk.)',            desc:'Sesambällchen',                                                                                 price:5.90},
+      {id:233,cat:'Nachtisch',             nr:'233',name:'Mochi Eis',                         desc:'Japanische Klebreiskuchen mit Füllung, serviert mit Saisonobst',                               price:5.90},
+      // Softdrinks
+      {id:281,cat:'Getränke – Softdrinks', nr:'281',name:'Coca-Cola',                         desc:'0,2 L',                                                                                         price:2.90},
+      {id:282,cat:'Getränke – Softdrinks', nr:'282',name:'Coca-Cola Zero',                    desc:'0,2 L',                                                                                         price:2.90},
+      {id:283,cat:'Getränke – Softdrinks', nr:'283',name:'Fanta',                             desc:'0,2 L',                                                                                         price:2.90},
+      {id:284,cat:'Getränke – Softdrinks', nr:'284',name:'Sprite',                            desc:'0,2 L',                                                                                         price:2.90},
+      {id:285,cat:'Getränke – Softdrinks', nr:'285',name:'Spezi',                             desc:'0,2 L',                                                                                         price:2.90},
+      {id:286,cat:'Getränke – Softdrinks', nr:'286',name:'Schweppes Ginger Ale',              desc:'0,2 L',                                                                                         price:2.90},
+      {id:287,cat:'Getränke – Softdrinks', nr:'287',name:'Schweppes Bitter Lemon',            desc:'0,2 L',                                                                                         price:2.90},
+      {id:288,cat:'Getränke – Softdrinks', nr:'288',name:'Schweppes Wild Berry',              desc:'0,2 L',                                                                                         price:2.90},
+      {id:289,cat:'Getränke – Softdrinks', nr:'289',name:'Tafelwasser',                       desc:'Naturell oder Medium',                                                                          price:2.50},
+      {id:290,cat:'Getränke – Softdrinks', nr:'290',name:'Teinacher',                         desc:'Naturell oder Medium, 0,25 L / Fl. 0,75 L',                                                    price:2.90},
+      // Juices
+      {id:291,cat:'Getränke – Juices',     nr:'291',name:'Fruchtsäfte',                       desc:'Diverse Fruchtsäfte',                                                                           price:3.20},
+      {id:292,cat:'Getränke – Juices',     nr:'292',name:'Spritzer Classic',                  desc:'Schorle',                                                                                       price:null},
+      // Cocktails
+      {id:241,cat:'Getränke – Cocktails',  nr:'241',name:'Aperol Spritz',                     desc:'Aperol, Prosecco, Soda',                                                                        price:6.90},
+      {id:242,cat:'Getränke – Cocktails',  nr:'242',name:'Hugo',                              desc:'Prosecco, Limetten, Holundersirup, Soda, Minze',                                               price:6.90},
+      {id:243,cat:'Getränke – Cocktails',  nr:'243',name:'Lillet Berry',                      desc:'Lillet, frische Beeren, Schweppes Wild Berry',                                                  price:6.90},
+      {id:244,cat:'Getränke – Cocktails',  nr:'244',name:'Lillet Passion',                    desc:'Lillet, Maracujasaft, Ginger Ale, Minze',                                                       price:6.90},
+      {id:245,cat:'Getränke – Cocktails',  nr:'245',name:'Aperol Lemon',                      desc:'Aperol, Bitter Lemon',                                                                          price:6.90},
+      {id:246,cat:'Getränke – Cocktails',  nr:'246',name:'Yuzu Spritz',                       desc:'Prosecco, Yuzu, Soda, Minze',                                                                   price:6.90},
+      {id:247,cat:'Getränke – Cocktails',  nr:'247',name:'Umeshu Spritz',                     desc:'Pflaumenwein, Prosecco, Soda',                                                                  price:6.90},
+      {id:261,cat:'Getränke – Cocktails',  nr:'261',name:'Samurai Mule',                      desc:'Sake, Ginger Beer, Limette, Gurke',                                                             price:9.90},
+      {id:262,cat:'Getränke – Cocktails',  nr:'262',name:'Geishas Kiss',                      desc:'Vodka, Lycheepüree, Rosensirup, Limette',                                                       price:8.90},
+      {id:263,cat:'Getränke – Cocktails',  nr:'263',name:'Yuzu Gin Sour',                     desc:'Gin, Yuzu, Limette, Zuckersirup, Soda',                                                         price:9.90},
+      {id:264,cat:'Getränke – Cocktails',  nr:'264',name:'Hanoi Heat',                        desc:'Rum, Maracuja, Limette, Honigsirup',                                                            price:8.90},
+      {id:265,cat:'Getränke – Cocktails',  nr:'265',name:'Lemongras Mojito',                  desc:'Rum, Zitronengras, Minze, Limette, Soda',                                                       price:8.90},
+      {id:266,cat:'Getränke – Cocktails',  nr:'266',name:'Pornstar Martini',                  desc:'Vanille-Wodka, Maracuja-Likör, Limettensaft, Vanille-Sirup, 1 Shot Prosecco',                  price:9.90},
+      // Bier
+      {id:301,cat:'Getränke – Bier',       nr:'301',name:'Baisinger Spezial',                 desc:'0,5 L vom Fass',                                                                                price:4.20},
+      {id:302,cat:'Getränke – Bier',       nr:'302',name:'Baisinger Hefeweizen Hell',          desc:'0,5 L vom Fass',                                                                                price:4.20},
+      {id:303,cat:'Getränke – Bier',       nr:'303',name:'Baisinger Kristallweizen',           desc:'0,5 L',                                                                                         price:4.20},
+      {id:304,cat:'Getränke – Bier',       nr:'304',name:'Baisinger Pils',                     desc:'0,33 L',                                                                                        price:3.50},
+      {id:305,cat:'Getränke – Bier',       nr:'305',name:'Alkoholfreies Weizen',               desc:'0,5 L',                                                                                         price:4.20},
+      {id:306,cat:'Getränke – Bier',       nr:'306',name:'Radler',                             desc:'0,5 L vom Fass',                                                                                price:4.20},
+      {id:307,cat:'Getränke – Bier',       nr:'307',name:'Cola-Weizen',                        desc:'0,5 L vom Fass',                                                                                price:4.20},
+      {id:308,cat:'Getränke – Bier',       nr:'308',name:'Sai Gon Bier',                       desc:'0,33 L',                                                                                        price:4.20},
+      {id:309,cat:'Getränke – Bier',       nr:'309',name:'Asahi',                              desc:'',                                                                                              price:4.20},
+      {id:310,cat:'Getränke – Bier',       nr:'310',name:'Baisinger Naturtrüb Alkoholfrei',    desc:'',                                                                                              price:3.50},
+      // Wein
+      {id:311,cat:'Getränke – Wein',       nr:'311',name:'Grauburgunder trocken',              desc:'Deutschland',                                                                                   price:null},
+      {id:312,cat:'Getränke – Wein',       nr:'312',name:'Chardonnay',                         desc:'Italien',                                                                                       price:null},
+      {id:313,cat:'Getränke – Wein',       nr:'313',name:'Primitivo di Manduria',              desc:'Italien',                                                                                       price:7.90},
+      {id:314,cat:'Getränke – Wein',       nr:'314',name:'Merlot-Cabernet',                    desc:'Frankreich',                                                                                    price:7.90},
+      {id:315,cat:'Getränke – Wein',       nr:'315',name:'Chiaretto Classico',                 desc:'Italien',                                                                                       price:6.90},
+      {id:316,cat:'Getränke – Wein',       nr:'316',name:'Weinschorle',                        desc:'Mit Weißwein / Rotwein',                                                                        price:5.90},
+      // Spirituosen
+      {id:321,cat:'Getränke – Spirituosen',nr:'321',name:'Reisschnaps',                        desc:'2 cl',                                                                                          price:3.50},
+      {id:322,cat:'Getränke – Spirituosen',nr:'322',name:'Soju',                               desc:'2 cl',                                                                                          price:2.90},
+      {id:323,cat:'Getränke – Spirituosen',nr:'323',name:'Wodka',                              desc:'2 cl',                                                                                          price:2.90},
+      {id:324,cat:'Getränke – Spirituosen',nr:'324',name:'Baileys',                            desc:'2 cl',                                                                                          price:2.90},
+      {id:325,cat:'Getränke – Spirituosen',nr:'325',name:'Jägermeister',                       desc:'2 cl',                                                                                          price:2.90},
+      {id:326,cat:'Getränke – Spirituosen',nr:'326',name:'Toki japanischer Whisky',            desc:'2 cl',                                                                                          price:3.90},
+      {id:327,cat:'Getränke – Spirituosen',nr:'327',name:'Hibiki japanischer Whisky',          desc:'2 cl',                                                                                          price:6.90},
+    ];
+
+    const CATEGORIES = [
+      'Vorspeisen','Salat','Suppe',
+      'Pho Hanoi','Pho Xao','Bun','Yaki Udon',
+      'Chicken','Duck','Beef','Vegetarisch',
+      'Sushi – Nigiri','Sushi – Maki','Sushi – Inside-Out',
+      'Sushi – Gegrillte I.O','Sushi – Futo Roll',
+      'Sushi – Tempura Maki','Sushi – Tempura Big Roll',
+      'Sushi – Special Roll','Sushi – Sashimi','Sushi-Bowl',
+      'Nachtisch',
+      'Getränke – Softdrinks','Getränke – Juices','Getränke – Cocktails',
+      'Getränke – Bier','Getränke – Wein','Getränke – Spirituosen',
+    ];
+    const CAT_KANA = {
+      'Vorspeisen':'前菜', 'Salat':'野菜', 'Suppe':'汁',
+      'Pho Hanoi':'河内', 'Pho Xao':'炒', 'Bun':'麺', 'Yaki Udon':'饂飩',
+      'Chicken':'鶏', 'Duck':'鴨', 'Beef':'牛', 'Vegetarisch':'菜',
+      'Sushi – Nigiri':'握', 'Sushi – Maki':'巻', 'Sushi – Inside-Out':'裏',
+      'Sushi – Gegrillte I.O':'炙', 'Sushi – Futo Roll':'太',
+      'Sushi – Tempura Maki':'天', 'Sushi – Tempura Big Roll':'大',
+      'Sushi – Special Roll':'特', 'Sushi – Sashimi':'刺', 'Sushi-Bowl':'丼',
+      'Nachtisch':'甘',
+      'Getränke – Softdrinks':'軟', 'Getränke – Juices':'汁',
+      'Getränke – Cocktails':'酒', 'Getränke – Bier':'麦',
+      'Getränke – Wein':'葡', 'Getränke – Spirituosen':'蒸',
+    };
+
+    // ─ Öffnungszeiten für Abholzeit ───────────────────────
+    const PICKUP_HOURS = {
+      0:{ open:13*60, close:21*60 },
+      1:{ open:12*60, close:22*60 },
+      2:{ open:12*60, close:22*60 },
+      3:{ open:12*60, close:22*60 },
+      4:{ open:12*60, close:22*60 },
+      5:{ open:12*60, close:22*60 },
+      6:{ open:12*60, close:22*60 },
+    };
+    function toHHMM(m){ return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); }
+
+    // ─ Warenkorb-State ────────────────────────────────────
+    let cart = {}; // { id: qty }
+    let pickupTime = null;
+
+    // ─ DOM refs ───────────────────────────────────────────
+    const speiseList   = document.getElementById('speiseList');
+    const cartEmpty    = document.getElementById('cartEmpty');
+    const cartItemsList= document.getElementById('cartItemsList');
+    const cartTotalWrap= document.getElementById('cartTotalWrap');
+    const cartTotal    = document.getElementById('cartTotal');
+    const cartCount    = document.getElementById('cartCount');
+    const pickupDate   = document.getElementById('pickupDate');
+    const pickupGrid   = document.getElementById('pickupGrid');
+    const orderSubmit  = document.getElementById('orderSubmit');
+    const orderSuccess = document.getElementById('orderSuccess');
+    const orderSuccDet = document.getElementById('orderSuccessDetail');
+    const cartBox      = document.getElementById('cartBox');
+
+    // Heute als Standard-Datum setzen und Slots sofort rendern
+    const t    = new Date();
+    const pad  = n => String(n).padStart(2,'0');
+    const todayStr = `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`;
+    pickupDate.min   = todayStr;
+    pickupDate.value = todayStr;
+    // Nach kurzer Verzögerung rendern (DOM muss bereit sein)
+    setTimeout(() => {
+      renderPickupSlots();
+      // Nächsten verfügbaren Slot automatisch vorschlagen (aber nicht selektieren)
+    }, 50);
+
+    // ─ Render Speisekarte als Accordion ──────────────────
+    CATEGORIES.forEach((cat, idx) => {
+      const items = MENU.filter(i => i.cat === cat);
+      if (!items.length) return;
+
+      const acc = document.createElement('div');
+      acc.className = 'speise-accordion';
+      acc.id = `acc-${cat.replace(/[^a-z0-9]/gi,'_')}`;
+
+      const header = document.createElement('div');
+      header.className = 'speise-acc-header' + (idx === 0 ? ' open' : '');
+      header.innerHTML = `
+        <div class="speise-acc-kana">${CAT_KANA[cat]||'—'}</div>
+        <span class="speise-acc-title">${cat}</span>
+        <span class="speise-acc-count">${items.length} Gerichte</span>
+        <span class="speise-acc-cart-badge" id="badge-${cat.replace(/[^a-z0-9]/gi,'_')}"></span>
+        <span class="speise-acc-chevron">▾</span>
+      `;
+
+      const body = document.createElement('div');
+      body.className = 'speise-acc-body' + (idx === 0 ? ' open' : '');
+
+      items.forEach(item => {
+        const priceDisplay = item.price !== null
+          ? `€&nbsp;${item.price.toFixed(2).replace('.',',')}`
+          : `<span style="color:rgba(245,240,232,0.2);font-size:0.75rem">auf Anfrage</span>`;
+
+        const row = document.createElement('div');
+        row.className = 'speise-item';
+        row.id = `speise-${item.id}`;
+        row.innerHTML = `
+          <span class="speise-nr">${item.nr}</span>
+          <div class="speise-info">
+            <div class="speise-name">${item.name}</div>
+            <div class="speise-desc">${item.desc}</div>
+          </div>
+          <div class="speise-price">${priceDisplay}</div>
+          <div class="speise-qty-ctrl hidden" id="ctrl-${item.id}">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <span class="qty-num" id="qty-${item.id}">1</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+          </div>
+          <button class="speise-add-btn" id="addbtn-${item.id}" onclick="addToCart(${item.id})" title="In den Warenkorb">+</button>
+        `;
+        body.appendChild(row);
+      });
+
+      header.addEventListener('click', () => {
+        const isOpen = body.classList.contains('open');
+        body.classList.toggle('open', !isOpen);
+        header.classList.toggle('open', !isOpen);
+      });
+
+      acc.appendChild(header);
+      acc.appendChild(body);
+      speiseList.appendChild(acc);
+    });
+
+    // ─ Warenkorb-Aktionen ─────────────────────────────────
+    window.addToCart = function(id) {
+      if (cart[id]) return;
+      cart[id] = 1;
+      document.getElementById(`ctrl-${id}`).classList.remove('hidden');
+      document.getElementById(`addbtn-${id}`).style.display = 'none';
+      document.getElementById(`speise-${id}`).classList.add('in-cart');
+      renderCart();
+    };
+
+    window.changeQty = function(id, delta) {
+      cart[id] = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) {
+        delete cart[id];
+        document.getElementById(`ctrl-${id}`).classList.add('hidden');
+        document.getElementById(`addbtn-${id}`).style.display = 'flex';
+        document.getElementById(`speise-${id}`).classList.remove('in-cart');
+      } else {
+        document.getElementById(`qty-${id}`).textContent = cart[id];
+      }
+      renderCart();
+    };
+
+    function renderCart() {
+      const ids = Object.keys(cart).map(Number);
+      cartCount.textContent = ids.reduce((s,id) => s + cart[id], 0);
+
+      if (ids.length === 0) {
+        cartEmpty.style.display = '';
+        cartItemsList.innerHTML = '';
+        cartTotalWrap.style.display = 'none';
+        checkOrder();
+        return;
+      }
+      cartEmpty.style.display = 'none';
+      cartItemsList.innerHTML = '';
+      let total = 0;
+      let hasUnknown = false;
+      ids.forEach(id => {
+        const item = MENU.find(m => m.id === id);
+        const sub  = item.price !== null ? item.price * cart[id] : 0;
+        if (item.price !== null) total += sub;
+        else hasUnknown = true;
+        const priceStr = item.price !== null
+          ? '€ ' + sub.toFixed(2).replace('.',',')
+          : '—';
+        const line = document.createElement('div');
+        line.className = 'cart-line';
+        line.innerHTML = `
+          <span class="cart-line-name">${item.name}</span>
+          <span class="cart-line-qty">× ${cart[id]}</span>
+          <span class="cart-line-price">${priceStr}</span>
+          <button class="cart-line-remove" onclick="changeQty(${id},-99)" title="Entfernen">✕</button>
+        `;
+        cartItemsList.appendChild(line);
+      });
+      cartTotalWrap.style.display = '';
+      cartTotal.textContent = '€ ' + total.toFixed(2).replace('.',',') + (hasUnknown ? ' +' : '');
+      checkOrder();
+    }
+
+    // ─ Abholzeit ──────────────────────────────────────────
+    pickupDate.addEventListener('change', () => {
+      pickupTime = null;
+      renderPickupSlots();
+      checkOrder();
+    });
+
+    function renderPickupSlots() {
+      pickupGrid.innerHTML = '';
+      const val = pickupDate.value;
+      if (!val) return;
+
+      const d   = new Date(val + 'T12:00:00');
+      const h   = PICKUP_HOURS[d.getDay()];
+      if (!h) {
+        pickupGrid.innerHTML = '<p style="font-size:0.72rem;color:rgba(245,240,232,0.25)">An diesem Tag geschlossen</p>';
+        return;
+      }
+
+      // Aktuelle Uhrzeit in Minuten (nur für heute relevant)
+      const now      = new Date();
+      const isToday  = val === `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+      const nowMins  = isToday ? now.getHours() * 60 + now.getMinutes() + 30 : 0; // +30min Vorlauf
+
+      let firstAvail = null;
+      let hasAny = false;
+
+      for (let m = h.open; m <= h.close - 30; m += 30) {
+        const isPast = isToday && m < nowMins;
+        if (isPast) continue; // vergangene Slots nicht anzeigen
+        hasAny = true;
+
+        const btn = document.createElement('button');
+        btn.className = 'pickup-slot';
+        btn.textContent = toHHMM(m);
+        btn.dataset.val = m;
+        if (firstAvail === null) firstAvail = btn;
+
+        btn.addEventListener('click', () => {
+          pickupGrid.querySelectorAll('.pickup-slot').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          pickupTime = btn.dataset.val;
+          checkOrder();
+        });
+        pickupGrid.appendChild(btn);
+      }
+
+      if (!hasAny) {
+        pickupGrid.innerHTML = '<p style="font-size:0.72rem;color:rgba(245,240,232,0.25)">Heute keine weiteren Abholzeiten verfügbar</p>';
+      }
+    }
+
+    // ─ Submit-Status ──────────────────────────────────────
+    function checkOrder() {
+      const hasItems = Object.keys(cart).length > 0;
+      const hasTime  = !!pickupTime;
+      orderSubmit.disabled = !(hasItems && hasTime);
+    }
+
+    // ─ Bestellung absenden ────────────────────────────────
+    orderSubmit.addEventListener('click', () => {
+      const ids   = Object.keys(cart).map(Number);
+      const lines = ids.map(id => `${cart[id]}× ${MENU.find(m=>m.id===id).name}`).join(', ');
+      const time  = toHHMM(parseInt(pickupTime));
+      const date  = pickupDate.value;
+      const d     = new Date(date+'T12:00:00');
+      const fmt   = d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear();
+      orderSuccDet.textContent = `${lines} · Abholung ${fmt} um ${time} Uhr`;
+
+      // Alles ausblenden außer Erfolgsmeldung
+      [...cartBox.children].forEach(el => { if (el.id !== 'orderSuccess') el.style.display = 'none'; });
+      orderSuccess.classList.add('visible');
+    });
+
+    // ─ Reset ──────────────────────────────────────────────
+    window.resetOrder = function() {
+      cart = {}; pickupTime = null;
+      MENU.forEach(item => {
+        const ctrl = document.getElementById(`ctrl-${item.id}`);
+        const btn  = document.getElementById(`addbtn-${item.id}`);
+        const row  = document.getElementById(`speise-${item.id}`);
+        const qty  = document.getElementById(`qty-${item.id}`);
+        if (ctrl) ctrl.classList.add('hidden');
+        if (btn)  btn.style.display = '';
+        if (row)  row.classList.remove('in-cart');
+        if (qty)  qty.textContent = '1';
+      });
+      pickupDate.value = '';
+      document.getElementById('orderNote').value = '';
+      pickupGrid.innerHTML = '<p style="font-size:0.72rem;color:rgba(245,240,232,0.25);letter-spacing:0.05em">Bitte zuerst ein Datum wählen</p>';
+      orderSuccess.classList.remove('visible');
+      [...cartBox.children].forEach(el => el.style.display = '');
+      renderCart();
+    };
+
+  })();
+
+  // ════════════════════════════════════════════════════════
+  // RESERVATION MODULE
+  // ════════════════════════════════════════════════════════
+  (function() {
+    // Öffnungszeiten in Minuten ab Mitternacht
+    // 0 = Sonntag, 1–6 = Mo–Sa
+    const HOURS = {
+      0: { open: 13*60, close: 21*60 },  // Sonntag 13–21
+      1: { open: 12*60, close: 22*60 },
+      2: { open: 12*60, close: 22*60 },
+      3: { open: 12*60, close: 22*60 },
+      4: { open: 12*60, close: 22*60 },
+      5: { open: 12*60, close: 22*60 },
+      6: { open: 12*60, close: 22*60 },
+    };
+
+    const DAY_NAMES = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+    const MONTH_NAMES = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+
+    function toHHMM(mins) {
+      return String(Math.floor(mins/60)).padStart(2,'0') + ':' + String(mins%60).padStart(2,'0');
+    }
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      return DAY_NAMES[d.getDay()] + ', ' + d.getDate() + '. ' + MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    // State
+    let state = { guests: null, duration: null, date: null, time: null };
+
+    // DOM refs
+    const guestOpts   = document.getElementById('guestOpts');
+    const durOpts     = document.getElementById('durOpts');
+    const resDate     = document.getElementById('resDate');
+    const resDateHint = document.getElementById('resDateHint');
+    const resDivider1 = document.getElementById('resDivider1');
+    const resDivider2 = document.getElementById('resDivider2');
+    const slotsSection  = document.getElementById('resSlotsSection');
+    const timeGrid    = document.getElementById('timeGrid');
+    const contactSect = document.getElementById('resContactSection');
+    const resSummary  = document.getElementById('resSummary');
+    const resName     = document.getElementById('resName');
+    const resPhone    = document.getElementById('resPhone');
+    const resSubmit   = document.getElementById('resSubmit');
+    const resSuccess  = document.getElementById('resSuccess');
+    const resSuccDet  = document.getElementById('resSuccessDetail');
+    const resForm     = document.getElementById('resForm');
+
+    // Set min date to today
+    const today = new Date();
+    const yyyy  = today.getFullYear();
+    const mm    = String(today.getMonth()+1).padStart(2,'0');
+    const dd    = String(today.getDate()).padStart(2,'0');
+    resDate.min = `${yyyy}-${mm}-${dd}`;
+
+    // ── Option button helpers ──────────────────────────────
+    function bindOpts(container, key) {
+      container.querySelectorAll('.res-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.res-opt').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state[key] = btn.dataset.val;
+          onStateChange();
+        });
+      });
+    }
+    bindOpts(guestOpts, 'guests');
+    bindOpts(durOpts,   'duration');
+
+    resDate.addEventListener('change', () => {
+      state.date = resDate.value;
+      state.time = null;
+      const d = new Date(resDate.value + 'T12:00:00');
+      const dayName = DAY_NAMES[d.getDay()];
+      const h = HOURS[d.getDay()];
+      resDateHint.textContent = h
+        ? `${dayName} · ${toHHMM(h.open)} – ${toHHMM(h.close)} Uhr`
+        : '';
+      onStateChange();
+    });
+
+    // ── Slot generation ────────────────────────────────────
+    function getSlots(dateStr, durationMins) {
+      const d   = new Date(dateStr + 'T12:00:00');
+      const h   = HOURS[d.getDay()];
+      if (!h) return [];
+      const slots = [];
+      let t = h.open;
+      while (t + durationMins <= h.close) {
+        slots.push(t);
+        t += 30;
+      }
+      return slots;
+    }
+
+    // ── Render time grid ───────────────────────────────────
+    function renderSlots() {
+      timeGrid.innerHTML = '';
+      if (!state.date || !state.duration) return;
+
+      const slots = getSlots(state.date, parseInt(state.duration));
+
+      if (slots.length === 0) {
+        timeGrid.innerHTML = '<p class="no-slots-msg">Für diesen Tag sind keine Zeitfenster verfügbar.</p>';
+        return;
+      }
+
+      slots.forEach(mins => {
+        const btn = document.createElement('button');
+        btn.className = 'time-slot';
+        btn.textContent = toHHMM(mins);
+        btn.dataset.val = mins;
+        if (state.time === String(mins)) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+          timeGrid.querySelectorAll('.time-slot').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.time = btn.dataset.val;
+          onStateChange();
+        });
+        timeGrid.appendChild(btn);
+      });
+    }
+
+    // ── Update summary ─────────────────────────────────────
+    function updateSummary() {
+      if (!state.guests || !state.duration || !state.date || !state.time) return;
+      const endMins = parseInt(state.time) + parseInt(state.duration);
+      resSummary.innerHTML =
+        `<strong>${state.guests} ${state.guests === '8+' ? 'oder mehr Personen' : state.guests == 1 ? 'Person' : 'Personen'}</strong>
+        &nbsp;·&nbsp; ${formatDate(state.date)}
+        &nbsp;·&nbsp; <strong>${toHHMM(parseInt(state.time))} – ${toHHMM(endMins)} Uhr</strong>
+        &nbsp;·&nbsp; ${state.duration} Minuten`;
+      resSummary.classList.add('visible');
+    }
+
+    // ── Submit enable/disable ──────────────────────────────
+    function checkSubmitReady() {
+      const nameOk  = resName.value.trim().length > 1;
+      const phoneOk = resPhone.value.trim().length > 6;
+      resSubmit.disabled = !(nameOk && phoneOk);
+    }
+    resName.addEventListener('input',  checkSubmitReady);
+    resPhone.addEventListener('input', checkSubmitReady);
+
+    // ── Main state handler ─────────────────────────────────
+    function onStateChange() {
+      const hasDateAndDur = state.date && state.duration;
+
+      // Show/hide slot section
+      resDivider1.style.display = hasDateAndDur ? 'block' : 'none';
+      if (hasDateAndDur) {
+        slotsSection.classList.add('visible');
+        renderSlots();
+      } else {
+        slotsSection.classList.remove('visible');
+      }
+
+      // Show/hide contact section
+      const allSelected = state.guests && state.duration && state.date && state.time;
+      resDivider2.style.display = allSelected ? 'block' : 'none';
+      if (allSelected) {
+        contactSect.classList.add('visible');
+        updateSummary();
+        checkSubmitReady();
+      } else {
+        contactSect.classList.remove('visible');
+        resSummary.classList.remove('visible');
+      }
+    }
+
+    // ── Submit ─────────────────────────────────────────────
+    resSubmit.addEventListener('click', () => {
+      const endMins = parseInt(state.time) + parseInt(state.duration);
+      resSuccDet.textContent =
+        `${state.guests} ${state.guests === '8+' ? 'oder mehr Personen' : state.guests == 1 ? 'Person' : 'Personen'} · `
+        + formatDate(state.date) + ' · '
+        + toHHMM(parseInt(state.time)) + ' – ' + toHHMM(endMins) + ' Uhr';
+
+      // Hide form content, show success
+      [...resForm.children].forEach(el => {
+        if (el.id !== 'resSuccess') el.style.display = 'none';
+      });
+      resSuccess.classList.add('visible');
+    });
+
+    // ── Reset ──────────────────────────────────────────────
+    window.resetReservation = function() {
+      state = { guests: null, duration: null, date: null, time: null };
+      document.querySelectorAll('.res-opt, .time-slot').forEach(b => b.classList.remove('active'));
+      resDate.value       = '';
+      resDateHint.textContent = '';
+      resName.value       = '';
+      resPhone.value      = '';
+      document.getElementById('resNote').value = '';
+      slotsSection.classList.remove('visible');
+      contactSect.classList.remove('visible');
+      resSummary.classList.remove('visible');
+      resDivider1.style.display = 'none';
+      resDivider2.style.display = 'none';
+      resSuccess.classList.remove('visible');
+      [...resForm.children].forEach(el => el.style.display = '');
+    };
+  })();
+  </script>
+</body>
+</html>

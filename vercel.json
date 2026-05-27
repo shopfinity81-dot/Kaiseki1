@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "kaiseki-hechingen",
+  "builds": [
+    { "src": "*.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
