@@ -2677,7 +2677,7 @@
             </div>
             <div>
               <p class="kontakt-label">Öffnungszeiten</p>
-              <p class="kontakt-value">Mo – Sa: 12:00 – 22:00 Uhr<br/>Sonntag: 13:00 – 21:00 Uhr</p>
+              <p class="kontakt-value">Di · Mi · Fr: 11 – 14:30 Uhr &amp; 17 – 22 Uhr<br/>Do · Sa · So: 12 – 22 Uhr<br/>Montag: Ruhetag</p>
             </div>
           </div>
 
@@ -2805,7 +2805,7 @@
           </button>
 
           <p class="portal-note">
-            Öffnungszeiten: Mo – Sa 12:00 – 22:00 Uhr · Sonntag 13:00 – 21:00 Uhr
+            Di · Mi · Fr: 11 – 14:30 &amp; 17 – 22 Uhr · Do · Sa · So: 12 – 22 Uhr · Mo Ruhetag
           </p>
 
           <!-- Success -->
@@ -3417,15 +3417,16 @@
       'Getränke – Wein':'葡', 'Getränke – Spirituosen':'蒸',
     };
 
-    // ─ Öffnungszeiten für Abholzeit ───────────────────────
+    // ─ Öffnungszeiten für Reservierung / Abholung ─────────
+    // Mo Ruhetag · Di Mi Fr 11–14:30 & 17–22 · Do Sa So 12–22
     const PICKUP_HOURS = {
-      0:{ open:13*60, close:21*60 },
-      1:{ open:12*60, close:22*60 },
-      2:{ open:12*60, close:22*60 },
-      3:{ open:12*60, close:22*60 },
-      4:{ open:12*60, close:22*60 },
-      5:{ open:12*60, close:22*60 },
-      6:{ open:12*60, close:22*60 },
+      0: [{ open: 12*60, close: 22*60 }],                                   // Sonntag
+      1: null,                                                              // Montag — Ruhetag
+      2: [{ open: 11*60, close: 14*60+30 }, { open: 17*60, close: 22*60 }], // Dienstag
+      3: [{ open: 11*60, close: 14*60+30 }, { open: 17*60, close: 22*60 }], // Mittwoch
+      4: [{ open: 12*60, close: 22*60 }],                                   // Donnerstag
+      5: [{ open: 11*60, close: 14*60+30 }, { open: 17*60, close: 22*60 }], // Freitag
+      6: [{ open: 12*60, close: 22*60 }],                                   // Samstag
     };
     function toHHMM(m){ return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); }
 
@@ -3467,9 +3468,9 @@
         return;
       }
       const d = new Date(dateStr + 'T12:00:00');
-      const h = PICKUP_HOURS[d.getDay()];
-      if (!h) {
-        selectEl.innerHTML = '<option value="">An diesem Tag geschlossen</option>';
+      const ranges = PICKUP_HOURS[d.getDay()];
+      if (!ranges || !ranges.length) {
+        selectEl.innerHTML = '<option value="">Ruhetag — kein Service</option>';
         return;
       }
       const now     = new Date();
@@ -3482,13 +3483,15 @@
       placeholder.textContent = '— Zeit wählen —';
       selectEl.appendChild(placeholder);
 
-      for (let m = h.open; m <= h.close - durationMins; m += 30) {
-        if (m < nowMins) continue;
-        const opt = document.createElement('option');
-        opt.value = m;
-        opt.textContent = toHHMM(m) + ' Uhr';
-        selectEl.appendChild(opt);
-        count++;
+      for (const r of ranges) {
+        for (let m = r.open; m <= r.close - durationMins; m += 30) {
+          if (m < nowMins) continue;
+          const opt = document.createElement('option');
+          opt.value = m;
+          opt.textContent = toHHMM(m) + ' Uhr';
+          selectEl.appendChild(opt);
+          count++;
+        }
       }
       if (count === 0) {
         selectEl.innerHTML = '<option value="">Keine Zeiten mehr verfügbar</option>';
