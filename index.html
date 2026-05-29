@@ -1871,6 +1871,449 @@
     @media (max-width: 768px) {
       .mobile-cart-bar { display: flex; }
     }
+
+    /* ════════════════════════════════════════════════════════
+       UNIFIED PORTAL (Reservierung · Vorbestellung · Zahlung)
+    ════════════════════════════════════════════════════════ */
+    .portal-wrap {
+      max-width: 720px;
+      margin: 5rem auto 0;
+      padding: 0 2rem;
+    }
+    .portal {
+      background: rgba(201,168,76,0.025);
+      border-left: 1px solid rgba(201,168,76,0.18);
+      border-right: 1px solid rgba(201,168,76,0.18);
+      overflow: hidden;
+    }
+
+    /* — Hero — */
+    .portal-hero {
+      padding: 3rem 2rem 2.4rem;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+      background: linear-gradient(180deg, rgba(201,168,76,0.04), transparent);
+    }
+    .portal-hero-kana {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: rgba(201,168,76,0.55);
+      margin-bottom: 0.6rem;
+    }
+    .portal-hero-label {
+      font-size: 0.66rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .portal-hero h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.9rem, 3vw, 2.6rem);
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+    .portal-hero h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .portal-hero p {
+      font-size: 0.82rem;
+      color: rgba(245,240,232,0.4);
+      letter-spacing: 0.06em;
+      max-width: 420px;
+      margin: 0.4rem auto 0;
+      line-height: 1.7;
+    }
+
+    /* — Tabs — */
+    .portal-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(201,168,76,0.18);
+      background: rgba(0,0,0,0.25);
+    }
+    .portal-tab {
+      flex: 1;
+      padding: 1rem 0.6rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .portal-tab:hover { color: var(--cream); }
+    .portal-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      background: rgba(201,168,76,0.05);
+    }
+    .portal-tab svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* — Panels — */
+    .portal-panel { display: none; padding: 2.4rem 2.2rem; }
+    .portal-panel.active { display: block; }
+
+    /* — Info box — */
+    .portal-info {
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+      padding: 0.85rem 1.1rem;
+      background: rgba(201,168,76,0.05);
+      border-left: 2px solid rgba(201,168,76,0.5);
+      margin-bottom: 1.6rem;
+      font-size: 0.78rem;
+      color: rgba(245,240,232,0.55);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+    .portal-info svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--gold); margin-top: 2px; }
+
+    /* — Form fields — */
+    .portal-field { margin-bottom: 1.3rem; }
+    .portal-field label {
+      display: block;
+      font-size: 0.63rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.75);
+      margin-bottom: 0.5rem;
+    }
+    .portal-field input,
+    .portal-field select,
+    .portal-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      padding: 0.6rem 0;
+      outline: none;
+      resize: none;
+      color-scheme: dark;
+      transition: border-color 0.2s;
+    }
+    .portal-field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c9a84c' stroke-width='1.5'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 0.3rem center;
+      background-size: 14px;
+      padding-right: 1.5rem;
+      cursor: pointer;
+    }
+    .portal-field select option { background: var(--bg2); color: var(--cream); }
+    .portal-field input:focus,
+    .portal-field select:focus,
+    .portal-field textarea:focus { border-bottom-color: var(--gold); }
+    .portal-field input::placeholder,
+    .portal-field textarea::placeholder { color: rgba(245,240,232,0.22); }
+    .portal-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+
+    /* — Primary button — */
+    .portal-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      width: 100%;
+      padding: 1rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.76rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      overflow: hidden;
+      margin-top: 0.6rem;
+    }
+    .portal-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-101%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      z-index: 0;
+    }
+    .portal-btn:hover::before { transform: translateX(0); }
+    .portal-btn:hover { color: var(--bg); }
+    .portal-btn > * { position: relative; z-index: 1; }
+    .portal-btn:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+    .portal-btn svg { width: 14px; height: 14px; }
+
+    /* — Success — */
+    .portal-success {
+      display: none;
+      text-align: center;
+      padding: 3rem 1rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .portal-success.visible { display: flex; }
+    .portal-success-icon {
+      width: 54px;
+      height: 54px;
+      border: 1px solid rgba(201,168,76,0.45);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+    }
+    .portal-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.8rem;
+      color: var(--cream);
+    }
+    .portal-success-detail {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(201,168,76,0.8);
+      max-width: 400px;
+      line-height: 1.5;
+    }
+    .portal-success p {
+      font-size: 0.82rem;
+      color: rgba(245,240,232,0.45);
+      max-width: 400px;
+      line-height: 1.8;
+    }
+
+    /* — Section divider note — */
+    .portal-note {
+      text-align: center;
+      font-size: 0.7rem;
+      color: rgba(245,240,232,0.3);
+      letter-spacing: 0.08em;
+      margin-top: 1.2rem;
+      line-height: 1.7;
+    }
+
+    /* — Order summary (Vorbestellung / Zahlung) — */
+    .portal-summary {
+      background: rgba(201,168,76,0.04);
+      border: 1px solid rgba(201,168,76,0.15);
+      padding: 1.2rem 1.3rem;
+      margin-top: 1.4rem;
+    }
+    .portal-summary-title {
+      font-size: 0.64rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    .portal-summary-empty {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: rgba(245,240,232,0.3);
+    }
+    .portal-summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      padding: 0.45rem 0;
+      font-size: 0.86rem;
+      color: var(--cream);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .portal-summary-row:last-of-type { border-bottom: none; }
+    .portal-summary-row .pname { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .portal-summary-row .pqty { font-size: 0.78rem; color: rgba(245,240,232,0.45); padding: 0 0.4rem; }
+    .portal-summary-row .pprice {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.98rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .portal-summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 0.8rem;
+      margin-top: 0.5rem;
+      border-top: 1px solid rgba(201,168,76,0.22);
+    }
+    .portal-summary-total-label {
+      font-size: 0.66rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+    }
+    .portal-summary-total-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+    }
+
+    /* — Payment options (Zahlung tab) — */
+    .portal-pay-opt {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(201,168,76,0.03);
+      margin-bottom: 0.7rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .portal-pay-opt:hover { border-color: rgba(201,168,76,0.5); }
+    .portal-pay-opt.selected {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.1);
+    }
+    .portal-pay-opt svg.payicon { width: 18px; height: 18px; color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+    .portal-pay-opt-label {
+      font-size: 0.82rem;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+    .portal-pay-opt-sub {
+      font-size: 0.7rem;
+      color: rgba(245,240,232,0.4);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    /* — Vorbestellung: speise list reuse — */
+    .portal-menu-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(245,240,232,0.5);
+      text-align: center;
+      padding: 0.5rem 0 1.2rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* — Mobile portal tweaks — */
+    @media (max-width: 768px) {
+      .portal-wrap { padding: 0; margin-top: 2.5rem; max-width: 100%; }
+      .portal {
+        border-left: none;
+        border-right: none;
+        background: rgba(201,168,76,0.03);
+      }
+
+      /* Hero kompakter */
+      .portal-hero { padding: 2rem 1.1rem 1.6rem; }
+      .portal-hero-kana { font-size: 0.68rem; margin-bottom: 0.5rem; }
+      .portal-hero-label { font-size: 0.62rem; letter-spacing: 0.28em; margin-bottom: 0.7rem; }
+      .portal-hero h2 { font-size: 1.75rem; line-height: 1.2; margin-bottom: 0.5rem; }
+      .portal-hero p { font-size: 0.82rem; line-height: 1.6; padding: 0 0.5rem; }
+
+      /* Tabs: bessere Touch-Targets + Wrap-Layout */
+      .portal-tabs { position: sticky; top: 0; z-index: 5; background: rgba(10,10,10,0.96); backdrop-filter: blur(10px); }
+      .portal-tab {
+        padding: 0.95rem 0.35rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        min-height: 52px;
+        gap: 0.35rem;
+        flex-direction: column;
+        line-height: 1.2;
+      }
+      .portal-tab svg { width: 16px; height: 16px; }
+
+      /* Panels */
+      .portal-panel { padding: 1.5rem 1.1rem 1.8rem; }
+
+      /* Info-Box */
+      .portal-info {
+        padding: 0.8rem 0.95rem;
+        font-size: 0.78rem;
+        line-height: 1.55;
+        margin-bottom: 1.4rem;
+      }
+
+      /* Felder gestapelt + iOS-Zoom-Fix (≥16px) */
+      .portal-row2 { grid-template-columns: 1fr; gap: 0; }
+      .portal-field { margin-bottom: 1.2rem; }
+      .portal-field label { font-size: 0.66rem; letter-spacing: 0.22em; margin-bottom: 0.4rem; }
+      .portal-field input,
+      .portal-field select,
+      .portal-field textarea {
+        font-size: 16px;
+        min-height: 48px;
+        padding: 0.75rem 0;
+        border-bottom-width: 1px;
+      }
+      .portal-field select { background-position: right 0.1rem center; }
+      .portal-field textarea { min-height: 72px; padding-top: 0.6rem; }
+
+      /* Button: groß & gut tappbar */
+      .portal-btn {
+        min-height: 56px;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        padding: 1rem 0.8rem;
+        margin-top: 1rem;
+      }
+      .portal-btn svg { width: 16px; height: 16px; }
+
+      /* Note */
+      .portal-note { font-size: 0.72rem; line-height: 1.65; margin-top: 1rem; padding: 0 0.4rem; }
+
+      /* Zusammenfassung kompakter */
+      .portal-summary { padding: 1rem 1rem; margin-top: 1.2rem; }
+      .portal-summary-title { font-size: 0.62rem; letter-spacing: 0.22em; margin-bottom: 0.6rem; }
+      .portal-summary-row { padding: 0.55rem 0; font-size: 0.88rem; gap: 0.5rem; }
+      .portal-summary-row .pprice { font-size: 1rem; }
+      .portal-summary-total-label { font-size: 0.68rem; }
+      .portal-summary-total-price { font-size: 1.35rem; }
+
+      /* Zahlungsoptionen — größere Hit-Area */
+      .portal-pay-opt {
+        padding: 1rem 0.95rem;
+        gap: 0.7rem;
+        min-height: 64px;
+      }
+      .portal-pay-opt-label { font-size: 0.85rem; }
+      .portal-pay-opt-sub { font-size: 0.72rem; line-height: 1.45; }
+      .portal-pay-opt svg.payicon { width: 20px; height: 20px; }
+
+      /* Success-Block */
+      .portal-success { padding: 2.5rem 0.8rem; gap: 0.9rem; }
+      .portal-success h3 { font-size: 1.55rem; line-height: 1.25; }
+      .portal-success-detail { font-size: 0.95rem; line-height: 1.5; }
+      .portal-success p { font-size: 0.85rem; line-height: 1.7; }
+
+      /* Menü-Intro in der Vorbestellung */
+      .portal-menu-intro { font-size: 0.88rem; padding: 0.3rem 0.5rem 1rem; line-height: 1.5; }
+    }
+
+    @media (max-width: 380px) {
+      .portal-hero h2 { font-size: 1.55rem; }
+      .portal-tab { font-size: 0.55rem; padding: 0.85rem 0.25rem; }
+      .portal-panel { padding: 1.3rem 0.9rem 1.6rem; }
+    }
   </style>
 </head>
 
@@ -1911,8 +2354,8 @@
     <ul class="nav-links">
       <li><a href="#about">Philosophie</a></li>
       <li><a href="#menu">Menü</a></li>
-      <li><a href="#kontakt">Reservierung</a></li>
-      <li><a href="#abholen">Take-Away</a></li>
+      <li><a href="#abholen" onclick="window.kaisekiPortalTab&&window.kaisekiPortalTab('res')">Reservierung</a></li>
+      <li><a href="#abholen" onclick="window.kaisekiPortalTab&&window.kaisekiPortalTab('order')">Take-Away</a></li>
       <li><a href="#bewertungen">Bewertungen</a></li>
     </ul>
     <div class="hamburger" id="hamburger" aria-label="Menü öffnen">
@@ -1924,8 +2367,8 @@
     <button class="mobile-close" id="mobileClose">&#215;</button>
     <a href="#about"       onclick="closeMobile()">Philosophie</a>
     <a href="#menu"        onclick="closeMobile()">Menü</a>
-    <a href="#kontakt"     onclick="closeMobile()">Reservierung</a>
-    <a href="#abholen"     onclick="closeMobile()">Take-Away</a>
+    <a href="#abholen"     onclick="window.kaisekiPortalTab&&window.kaisekiPortalTab('res');closeMobile()">Reservierung</a>
+    <a href="#abholen"     onclick="window.kaisekiPortalTab&&window.kaisekiPortalTab('order');closeMobile()">Take-Away</a>
     <a href="#bewertungen" onclick="closeMobile()">Bewertungen</a>
   </div>
 
@@ -2260,250 +2703,224 @@
 
     </div>
 
-    <!-- ─── Online-Buchungsmodul ──────────────────────────── -->
-    <div class="res-module" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+    <!-- ─── Unified Portal: Reservierung · Vorbestellung · Zahlung ─── -->
+    <div class="portal-wrap" id="abholen" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+      <div class="portal">
 
-      <div class="res-module-header">
-        <p class="section-label">Online Reservierung</p>
-        <h2 class="section-heading" style="font-size:clamp(1.8rem,3vw,2.6rem)">
-          Tisch <em style="font-style:italic;color:var(--gold)">reservieren</em>
-        </h2>
-        <div class="gold-rule"></div>
-        <p style="font-size:0.82rem;color:rgba(245,240,232,0.4);letter-spacing:0.06em;margin-top:0.3rem">
-          Wählen Sie Ihr gewünschtes Datum und Ihre Wunschzeit — wir bestätigen per Rückruf.
-        </p>
-      </div>
-
-      <div class="res-form" id="resForm">
-
-        <!-- Schritt 1–3: Personen · Dauer · Datum -->
-        <div class="res-steps-row">
-
-          <!-- Personen -->
-          <div>
-            <p class="res-step-label">
-              <span class="res-step-num">1</span>Personenzahl
-            </p>
-            <div class="res-opts" id="guestOpts">
-              <button class="res-opt" data-val="1">1</button>
-              <button class="res-opt" data-val="2">2</button>
-              <button class="res-opt" data-val="3">3</button>
-              <button class="res-opt" data-val="4">4</button>
-              <button class="res-opt" data-val="5">5</button>
-              <button class="res-opt" data-val="6">6</button>
-              <button class="res-opt" data-val="7">7</button>
-              <button class="res-opt" data-val="8+">8+</button>
-            </div>
-          </div>
-
-          <!-- Dauer -->
-          <div>
-            <p class="res-step-label">
-              <span class="res-step-num">2</span>Aufenthaltsdauer
-            </p>
-            <div class="res-opts" id="durOpts">
-              <button class="res-opt" data-val="60">60 Min</button>
-              <button class="res-opt" data-val="90">90 Min</button>
-              <button class="res-opt" data-val="120">120 Min</button>
-              <button class="res-opt" data-val="150">150 Min</button>
-              <button class="res-opt" data-val="180">180 Min</button>
-            </div>
-          </div>
-
-          <!-- Datum -->
-          <div>
-            <p class="res-step-label">
-              <span class="res-step-num">3</span>Datum wählen
-            </p>
-            <input
-              type="date"
-              id="resDate"
-              class="res-date-input"
-              autocomplete="off"
-            />
-            <p id="resDateHint" style="font-size:0.7rem;color:rgba(245,240,232,0.3);margin-top:0.6rem;letter-spacing:0.05em;min-height:1rem"></p>
-          </div>
-
+        <!-- Hero -->
+        <div class="portal-hero">
+          <div class="portal-hero-kana">懐石</div>
+          <div class="portal-hero-label">Kaiseki Hechingen</div>
+          <h2>Tisch &amp; <em>Vorbestellung</em></h2>
+          <p>Reservieren Sie Ihren Platz oder bestellen Sie zur Abholung vor</p>
         </div>
 
-        <!-- Trennlinie -->
-        <div class="res-divider" id="resDivider1" style="display:none"></div>
-
-        <!-- Schritt 4: Zeitslots -->
-        <div class="res-slots-section" id="resSlotsSection">
-          <p class="res-slots-label">
-            <span class="res-step-num">4</span>Verfügbare Zeitfenster
-          </p>
-          <div class="time-grid" id="timeGrid"></div>
-        </div>
-
-        <!-- Trennlinie -->
-        <div class="res-divider" id="resDivider2" style="display:none"></div>
-
-        <!-- Schritt 5: Kontaktdaten -->
-        <div class="res-contact-section" id="resContactSection">
-          <p class="res-slots-label">
-            <span class="res-step-num">5</span>Ihre Angaben
-          </p>
-
-          <!-- Zusammenfassung -->
-          <div class="res-summary" id="resSummary"></div>
-
-          <div class="res-contact-grid">
-            <div class="res-field">
-              <label for="resName">Name</label>
-              <input type="text" id="resName" placeholder="Ihr vollständiger Name" autocomplete="name" />
-            </div>
-            <div class="res-field">
-              <label for="resPhone">Telefon</label>
-              <input type="tel" id="resPhone" placeholder="Ihre Telefonnummer" autocomplete="tel" />
-            </div>
-          </div>
-
-          <div class="res-field" style="margin-bottom:2rem">
-            <label for="resNote">Anmerkungen <span style="opacity:0.4;font-size:0.6rem">(optional)</span></label>
-            <textarea id="resNote" rows="2" placeholder="Allergien, besondere Wünsche, Anlässe …"></textarea>
-          </div>
-
-          <button class="res-submit" id="resSubmit" disabled>
-            <span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:6px">
-                <path d="M20 6L9 17l-5-5"/>
-              </svg>
-              Tisch reservieren
-            </span>
-          </button>
-          <p class="res-note">
-            Ihre Anfrage wird von uns telefonisch bestätigt · Keine Kreditkarte erforderlich<br/>
-            Kostenlose Stornierung bis 24 Stunden vor dem Termin
-          </p>
-        </div>
-
-        <!-- Erfolgsmeldung -->
-        <div class="res-success" id="resSuccess">
-          <div class="res-success-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-              <path d="M20 6L9 17l-5-5"/>
+        <!-- Tabs -->
+        <div class="portal-tabs" role="tablist">
+          <button class="portal-tab active" role="tab" aria-selected="true" data-tab="res">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
             </svg>
-          </div>
-          <h3>Reservierungsanfrage gesendet</h3>
-          <p class="res-success-detail" id="resSuccessDetail"></p>
-          <p>Wir melden uns in Kürze telefonisch bei Ihnen, um Ihre Reservierung zu bestätigen.<br/>Wir freuen uns auf Ihren Besuch.</p>
-          <button class="res-opt" style="margin-top:1rem" onclick="resetReservation()">Neue Reservierung</button>
+            Reservierung
+          </button>
+          <button class="portal-tab" role="tab" aria-selected="false" data-tab="order">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M3 7h18l-2 12H5z"/><path d="M8 7V5a4 4 0 018 0v2"/>
+            </svg>
+            Vorbestellung
+          </button>
+          <button class="portal-tab" role="tab" aria-selected="false" data-tab="pay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="2" y="6" width="20" height="14" rx="2"/><line x1="2" y1="11" x2="22" y2="11"/>
+            </svg>
+            Abholung &amp; Zahlung
+          </button>
         </div>
 
-      </div>
-    </div>
+        <!-- ─── Panel 1: Reservierung ─── -->
+        <div class="portal-panel active" id="panel-res" role="tabpanel">
+          <div class="portal-info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Ihre Anfrage wird telefonisch bestätigt · Keine Kreditkarte erforderlich · Kostenlose Stornierung bis 24 Stunden vor dem Termin.</span>
+          </div>
 
-  </section>
+          <div class="portal-row2">
+            <div class="portal-field">
+              <label for="res-date">Datum</label>
+              <input type="date" id="res-date" autocomplete="off" />
+            </div>
+            <div class="portal-field">
+              <label for="res-time">Uhrzeit</label>
+              <select id="res-time"><option value="">— Datum wählen —</option></select>
+            </div>
+          </div>
 
-  <!-- Wave divider: Kontakt → Abholen -->
-  <div class="wave-divider" style="background:var(--bg)">
-    <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
-      <path d="M0,14 C360,28 720,0 1080,18 C1260,26 1360,8 1440,14 L1440,28 L0,28 Z" fill="#111111"/>
-    </svg>
-  </div>
+          <div class="portal-row2">
+            <div class="portal-field">
+              <label for="res-persons">Personenzahl</label>
+              <select id="res-persons">
+                <option>1 Person</option>
+                <option>2 Personen</option>
+                <option selected>3 Personen</option>
+                <option>4 Personen</option>
+                <option>5 Personen</option>
+                <option>6 Personen</option>
+                <option>7 Personen</option>
+                <option>8+ Personen (bitte Anmerkung)</option>
+              </select>
+            </div>
+            <div class="portal-field">
+              <label for="res-duration">Aufenthaltsdauer</label>
+              <select id="res-duration">
+                <option value="60">60 Minuten</option>
+                <option value="90" selected>90 Minuten</option>
+                <option value="120">120 Minuten</option>
+                <option value="150">150 Minuten</option>
+                <option value="180">180 Minuten</option>
+              </select>
+            </div>
+          </div>
 
-  <!-- ═══════════════════════ BESTELLEN & ABHOLEN ══════════ -->
-  <section id="abholen">
-    <div class="abhol-inner">
+          <div class="portal-row2">
+            <div class="portal-field">
+              <label for="res-name">Name</label>
+              <input type="text" id="res-name" placeholder="Ihr vollständiger Name" autocomplete="name" />
+            </div>
+            <div class="portal-field">
+              <label for="res-phone">Telefon</label>
+              <input type="tel" id="res-phone" placeholder="0173 1234567" autocomplete="tel" />
+            </div>
+          </div>
 
-      <div class="section-header" data-aos="fade-up">
-        <p class="section-label">Take-Away</p>
-        <h2 class="section-heading">
-          Bestellen &amp; <em style="font-style:italic;color:var(--gold)">Abholen</em>
-        </h2>
-        <div class="gold-rule"></div>
-        <p style="font-size:0.82rem;color:rgba(245,240,232,0.4);letter-spacing:0.06em;margin-top:0.3rem;max-width:520px;text-align:center;line-height:1.8">
-          Wählen Sie Ihre Gerichte, hinterlassen Sie eine Notiz und geben Sie Ihre gewünschte Abholzeit an — wir haben alles für Sie vorbereitet.
-        </p>
-      </div>
+          <div class="portal-field">
+            <label for="res-note">Anmerkungen <span style="opacity:0.4;font-size:0.6rem">(optional)</span></label>
+            <textarea id="res-note" rows="2" placeholder="Allergien, besondere Wünsche, Anlässe …"></textarea>
+          </div>
 
-      <div class="abhol-layout">
+          <button class="portal-btn" id="res-submit" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Tisch reservieren</span>
+          </button>
 
-        <!-- ─── Speisekarte ─────────────────────────────── -->
-        <div data-aos="fade-right" data-aos-duration="1000">
+          <p class="portal-note">
+            Öffnungszeiten: Mo – Sa 12:00 – 22:00 Uhr · Sonntag 13:00 – 21:00 Uhr
+          </p>
 
-          <!-- Speisekarte -->
+          <!-- Success -->
+          <div class="portal-success" id="res-success">
+            <div class="portal-success-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <h3>Reservierungsanfrage gesendet</h3>
+            <p class="portal-success-detail" id="res-success-detail"></p>
+            <p>Wir melden uns in Kürze telefonisch bei Ihnen, um Ihre Reservierung zu bestätigen.<br/>Wir freuen uns auf Ihren Besuch.</p>
+            <button class="portal-btn" style="max-width:240px;margin-top:1rem" onclick="resetReservation()"><span>Neue Reservierung</span></button>
+          </div>
+        </div>
+
+        <!-- ─── Panel 2: Vorbestellung ─── -->
+        <div class="portal-panel" id="panel-order" role="tabpanel">
+          <p class="portal-menu-intro">Wählen Sie aus unserer Karte — alle Preise tagesaktuell</p>
           <div class="speise-list" id="speiseList"></div>
 
+          <div class="portal-summary" id="order-summary-box">
+            <div class="portal-summary-title">Ihre Vorbestellung</div>
+            <div id="order-summary-items"><div class="portal-summary-empty">Noch keine Gerichte gewählt</div></div>
+            <div class="portal-summary-total" id="order-summary-total" style="display:none">
+              <span class="portal-summary-total-label">Gesamt</span>
+              <span class="portal-summary-total-price" id="order-summary-price">€ 0,00</span>
+            </div>
+          </div>
+
+          <button class="portal-btn" id="order-to-pay" disabled>
+            <span>Weiter zur Abholung &amp; Zahlung</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
 
-        <!-- ─── Warenkorb ───────────────────────────────── -->
-        <div class="cart-sticky" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="150">
-          <div class="cart-box" id="cartBox">
+        <!-- ─── Panel 3: Abholung & Zahlung ─── -->
+        <div class="portal-panel" id="panel-pay" role="tabpanel">
 
-            <div class="cart-header">
-              <p class="cart-title">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                Warenkorb
-                <span class="cart-count" id="cartCount">0</span>
-              </p>
+          <div class="portal-summary">
+            <div class="portal-summary-title">Bestellübersicht</div>
+            <div id="pay-summary-items"><div class="portal-summary-empty">Noch keine Vorbestellung</div></div>
+            <div class="portal-summary-total" id="pay-summary-total" style="display:none">
+              <span class="portal-summary-total-label">Gesamtbetrag</span>
+              <span class="portal-summary-total-price" id="pay-summary-price">€ 0,00</span>
             </div>
+          </div>
 
-            <!-- Cart content (items + total) -->
-            <div id="cartContent">
-              <div class="cart-empty" id="cartEmpty">Noch keine Artikel hinzugefügt</div>
-              <div class="cart-items-list" id="cartItemsList"></div>
-              <div id="cartTotalWrap" style="display:none">
-                <div class="cart-divider"></div>
-                <div class="cart-total-row">
-                  <span class="cart-total-label">Gesamt</span>
-                  <span class="cart-total-price" id="cartTotal">€ 0,00</span>
-                </div>
+          <div class="portal-row2" style="margin-top:1.4rem">
+            <div class="portal-field">
+              <label for="pickup-date">Abholdatum</label>
+              <input type="date" id="pickup-date" />
+            </div>
+            <div class="portal-field">
+              <label for="pickup-time">Abholzeit</label>
+              <select id="pickup-time"><option value="">— Datum wählen —</option></select>
+            </div>
+          </div>
+
+          <div class="portal-row2">
+            <div class="portal-field">
+              <label for="pay-name">Name</label>
+              <input type="text" id="pay-name" placeholder="Ihr Name" autocomplete="name" />
+            </div>
+            <div class="portal-field">
+              <label for="pay-phone">Telefon</label>
+              <input type="tel" id="pay-phone" placeholder="0173 1234567" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="portal-field">
+            <label for="pay-note">Notiz zur Bestellung <span style="opacity:0.4;font-size:0.6rem">(optional)</span></label>
+            <textarea id="pay-note" rows="2" placeholder="Allergien, Sonderwünsche, Portionsgrößen …"></textarea>
+          </div>
+
+          <div style="margin:1.4rem 0 0.6rem">
+            <p style="font-size:0.63rem;letter-spacing:0.24em;text-transform:uppercase;color:rgba(201,168,76,0.75);margin-bottom:0.8rem">Zahlungsart</p>
+
+            <div class="portal-pay-opt selected" data-pay="ort">
+              <svg class="payicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>
+              <div>
+                <div class="portal-pay-opt-label">Vor Ort bezahlen</div>
+                <div class="portal-pay-opt-sub">Bar oder Karte bei Abholung — keine Vorauszahlung erforderlich</div>
               </div>
             </div>
+          </div>
 
-            <div class="cart-divider"></div>
+          <button class="portal-btn" id="pay-submit" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>Bestellung abschicken</span>
+          </button>
 
-            <!-- Abholzeit -->
-            <div class="cart-field">
-              <label>Abholdatum &amp; Zeit</label>
-              <div class="pickup-date-row">
-                <input type="date" id="pickupDate" />
-              </div>
-              <div class="pickup-grid" id="pickupGrid">
-                <p style="font-size:0.72rem;color:rgba(245,240,232,0.25);letter-spacing:0.05em">Bitte zuerst ein Datum wählen</p>
-              </div>
+          <p class="portal-note">
+            Bestätigung folgt telefonisch · Abholung Obertorpl. 5, 72379 Hechingen
+          </p>
+
+          <!-- Success -->
+          <div class="portal-success" id="pay-success">
+            <div class="portal-success-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 6L9 17l-5-5"/></svg>
             </div>
-
-            <div class="cart-divider"></div>
-
-            <!-- Notiz -->
-            <div class="cart-field">
-              <label>Notiz zur Bestellung <span style="opacity:0.4;font-size:0.6rem">(optional)</span></label>
-              <textarea id="orderNote" rows="2" placeholder="Allergien, Sonderwünsche, Portionsgrößen …"></textarea>
-            </div>
-
-            <button class="order-submit" id="orderSubmit" disabled>
-              <span>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="vertical-align:middle;margin-right:5px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                Bestellung absenden
-              </span>
-            </button>
-
-            <!-- Erfolgsmeldung -->
-            <div class="order-success" id="orderSuccess">
-              <div class="order-success-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 6L9 17l-5-5"/></svg>
-              </div>
-              <h4>Bestellung eingegangen</h4>
-              <p class="order-success-detail" id="orderSuccessDetail"></p>
-              <p>Wir bereiten Ihre Bestellung vor und haben alles zur gewünschten Zeit bereit.</p>
-              <button class="res-opt" style="margin-top:0.5rem;font-size:0.75rem" onclick="resetOrder()">Neue Bestellung</button>
-            </div>
-
+            <h3>Bestellung eingegangen</h3>
+            <p class="portal-success-detail" id="pay-success-detail"></p>
+            <p>Wir bereiten Ihre Bestellung vor und haben alles zur gewünschten Zeit bereit.<br/>Wir freuen uns auf Ihren Besuch.</p>
+            <button class="portal-btn" style="max-width:240px;margin-top:1rem" onclick="resetOrder()"><span>Neue Bestellung</span></button>
           </div>
         </div>
 
       </div>
     </div>
+
   </section>
 
-  <!-- Wave divider: Abholen → Bewertungen -->
-  <div class="wave-divider" style="background:var(--bg3)">
+  <!-- Wave divider: Kontakt → Bewertungen -->
+  <div class="wave-divider" style="background:var(--bg2)">
     <svg viewBox="0 0 1440 28" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;height:28px;">
-      <path d="M0,20 C360,0 720,28 1080,8 C1260,0 1360,20 1440,14 L1440,28 L0,28 Z" fill="#0a0a0a"/>
+      <path d="M0,14 C360,28 720,0 1080,18 C1260,26 1360,8 1440,14 L1440,28 L0,28 Z" fill="#0a0a0a"/>
     </svg>
   </div>
 
@@ -3012,37 +3429,128 @@
     };
     function toHHMM(m){ return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); }
 
-    // ─ Warenkorb-State ────────────────────────────────────
-    let cart = {}; // { id: qty }
-    let pickupTime = null;
-
-    // ─ DOM refs ───────────────────────────────────────────
-    const speiseList   = document.getElementById('speiseList');
-    const cartEmpty    = document.getElementById('cartEmpty');
-    const cartItemsList= document.getElementById('cartItemsList');
-    const cartTotalWrap= document.getElementById('cartTotalWrap');
-    const cartTotal    = document.getElementById('cartTotal');
-    const cartCount    = document.getElementById('cartCount');
-    const pickupDate   = document.getElementById('pickupDate');
-    const pickupGrid   = document.getElementById('pickupGrid');
-    const orderSubmit  = document.getElementById('orderSubmit');
-    const orderSuccess = document.getElementById('orderSuccess');
-    const orderSuccDet = document.getElementById('orderSuccessDetail');
-    const cartBox      = document.getElementById('cartBox');
-
-    // Heute als Standard-Datum setzen und Slots sofort rendern
-    const t    = new Date();
-    const pad  = n => String(n).padStart(2,'0');
+    // ─ Helpers ────────────────────────────────────────────
+    const pad = n => String(n).padStart(2,'0');
+    const t   = new Date();
     const todayStr = `${t.getFullYear()}-${pad(t.getMonth()+1)}-${pad(t.getDate())}`;
-    pickupDate.min   = todayStr;
-    pickupDate.value = todayStr;
-    // Nach kurzer Verzögerung rendern (DOM muss bereit sein)
-    setTimeout(() => {
-      renderPickupSlots();
-      // Nächsten verfügbaren Slot automatisch vorschlagen (aber nicht selektieren)
-    }, 50);
+    const DAY_NAMES   = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+    const MONTH_NAMES = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      return DAY_NAMES[d.getDay()] + ', ' + d.getDate() + '. ' + MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
+    }
 
-    // ─ Render Speisekarte als Accordion ──────────────────
+    // ─ Tab switching ──────────────────────────────────────
+    const tabs = document.querySelectorAll('.portal-tab');
+    const panels = {
+      res:   document.getElementById('panel-res'),
+      order: document.getElementById('panel-order'),
+      pay:   document.getElementById('panel-pay'),
+    };
+    function switchTab(name) {
+      if (!panels[name]) return;
+      tabs.forEach(t => {
+        const active = t.dataset.tab === name;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active);
+      });
+      Object.entries(panels).forEach(([k, p]) => p.classList.toggle('active', k === name));
+    }
+    tabs.forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+    window.kaisekiPortalTab = switchTab;
+
+    // ─ Build dropdown time-options for date + duration ───
+    function buildTimeOptions(selectEl, dateStr, durationMins) {
+      selectEl.innerHTML = '';
+      if (!dateStr) {
+        selectEl.innerHTML = '<option value="">— Datum wählen —</option>';
+        return;
+      }
+      const d = new Date(dateStr + 'T12:00:00');
+      const h = PICKUP_HOURS[d.getDay()];
+      if (!h) {
+        selectEl.innerHTML = '<option value="">An diesem Tag geschlossen</option>';
+        return;
+      }
+      const now     = new Date();
+      const isToday = dateStr === `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+      const nowMins = isToday ? now.getHours()*60 + now.getMinutes() + 30 : -1;
+
+      let count = 0;
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = '— Zeit wählen —';
+      selectEl.appendChild(placeholder);
+
+      for (let m = h.open; m <= h.close - durationMins; m += 30) {
+        if (m < nowMins) continue;
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = toHHMM(m) + ' Uhr';
+        selectEl.appendChild(opt);
+        count++;
+      }
+      if (count === 0) {
+        selectEl.innerHTML = '<option value="">Keine Zeiten mehr verfügbar</option>';
+      }
+    }
+
+    // ════════════════════════════════════════════════════════
+    //  PANEL 1 — RESERVIERUNG
+    // ════════════════════════════════════════════════════════
+    const resDate     = document.getElementById('res-date');
+    const resTime     = document.getElementById('res-time');
+    const resPersons  = document.getElementById('res-persons');
+    const resDuration = document.getElementById('res-duration');
+    const resName     = document.getElementById('res-name');
+    const resPhone    = document.getElementById('res-phone');
+    const resNote     = document.getElementById('res-note');
+    const resSubmit   = document.getElementById('res-submit');
+    const resSuccess  = document.getElementById('res-success');
+    const resSuccDet  = document.getElementById('res-success-detail');
+
+    resDate.min   = todayStr;
+    resDate.value = todayStr;
+
+    function refreshResTimes() {
+      buildTimeOptions(resTime, resDate.value, parseInt(resDuration.value) || 90);
+    }
+    function checkResReady() {
+      const ok = resDate.value && resTime.value &&
+                 resName.value.trim().length > 1 &&
+                 resPhone.value.trim().length > 6;
+      resSubmit.disabled = !ok;
+    }
+    resDate.addEventListener('change',      () => { refreshResTimes(); checkResReady(); });
+    resDuration.addEventListener('change',  () => { refreshResTimes(); checkResReady(); });
+    resTime.addEventListener('change',      checkResReady);
+    [resName, resPhone].forEach(el => el.addEventListener('input', checkResReady));
+    refreshResTimes();
+    checkResReady();
+
+    resSubmit.addEventListener('click', () => {
+      const endMins = parseInt(resTime.value) + parseInt(resDuration.value);
+      resSuccDet.textContent =
+        `${resPersons.value} · ${formatDate(resDate.value)} · ${toHHMM(parseInt(resTime.value))} – ${toHHMM(endMins)} Uhr`;
+      [...panels.res.children].forEach(el => { if (el.id !== 'res-success') el.style.display = 'none'; });
+      resSuccess.classList.add('visible');
+    });
+
+    window.resetReservation = function() {
+      resDate.value = todayStr;
+      refreshResTimes();
+      resName.value = ''; resPhone.value = ''; resNote.value = '';
+      resSuccess.classList.remove('visible');
+      [...panels.res.children].forEach(el => el.style.display = '');
+      checkResReady();
+    };
+
+    // ════════════════════════════════════════════════════════
+    //  PANEL 2 — VORBESTELLUNG (Menu accordion + cart)
+    // ════════════════════════════════════════════════════════
+    const speiseList = document.getElementById('speiseList');
+    let cart = {};
+
     CATEGORIES.forEach((cat, idx) => {
       const items = MENU.filter(i => i.cat === cat);
       if (!items.length) return;
@@ -3084,7 +3592,7 @@
             <span class="qty-num" id="qty-${item.id}">1</span>
             <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
           </div>
-          <button class="speise-add-btn" id="addbtn-${item.id}" onclick="addToCart(${item.id})" title="In den Warenkorb">+</button>
+          <button class="speise-add-btn" id="addbtn-${item.id}" onclick="addToCart(${item.id})" title="Hinzufügen">+</button>
         `;
         body.appendChild(row);
       });
@@ -3100,16 +3608,14 @@
       speiseList.appendChild(acc);
     });
 
-    // ─ Warenkorb-Aktionen ─────────────────────────────────
     window.addToCart = function(id) {
       if (cart[id]) return;
       cart[id] = 1;
       document.getElementById(`ctrl-${id}`).classList.remove('hidden');
       document.getElementById(`addbtn-${id}`).style.display = 'none';
       document.getElementById(`speise-${id}`).classList.add('in-cart');
-      renderCart();
+      renderOrderSummaries();
     };
-
     window.changeQty = function(id, delta) {
       cart[id] = (cart[id] || 0) + delta;
       if (cart[id] <= 0) {
@@ -3120,25 +3626,34 @@
       } else {
         document.getElementById(`qty-${id}`).textContent = cart[id];
       }
-      renderCart();
+      renderOrderSummaries();
     };
 
-    function renderCart() {
-      const ids = Object.keys(cart).map(Number);
-      cartCount.textContent = ids.reduce((s,id) => s + cart[id], 0);
+    const orderSummaryItems = document.getElementById('order-summary-items');
+    const orderSummaryTotal = document.getElementById('order-summary-total');
+    const orderSummaryPrice = document.getElementById('order-summary-price');
+    const paySummaryItems   = document.getElementById('pay-summary-items');
+    const paySummaryTotal   = document.getElementById('pay-summary-total');
+    const paySummaryPrice   = document.getElementById('pay-summary-price');
+    const orderToPayBtn     = document.getElementById('order-to-pay');
 
-      if (ids.length === 0) {
-        cartEmpty.style.display = '';
-        cartItemsList.innerHTML = '';
-        cartTotalWrap.style.display = 'none';
-        checkOrder();
+    function renderOrderSummaries() {
+      const ids = Object.keys(cart).map(Number);
+      const hasItems = ids.length > 0;
+      orderToPayBtn.disabled = !hasItems;
+
+      if (!hasItems) {
+        orderSummaryItems.innerHTML = '<div class="portal-summary-empty">Noch keine Gerichte gewählt</div>';
+        paySummaryItems.innerHTML   = '<div class="portal-summary-empty">Noch keine Vorbestellung</div>';
+        orderSummaryTotal.style.display = 'none';
+        paySummaryTotal.style.display   = 'none';
+        checkPayReady();
         return;
       }
-      cartEmpty.style.display = 'none';
-      cartItemsList.innerHTML = '';
+
       let total = 0;
       let hasUnknown = false;
-      ids.forEach(id => {
+      const rowsHtml = ids.map(id => {
         const item = MENU.find(m => m.id === id);
         const sub  = item.price !== null ? item.price * cart[id] : 0;
         if (item.price !== null) total += sub;
@@ -3146,362 +3661,97 @@
         const priceStr = item.price !== null
           ? '€ ' + sub.toFixed(2).replace('.',',')
           : '—';
-        const line = document.createElement('div');
-        line.className = 'cart-line';
-        line.innerHTML = `
-          <span class="cart-line-name">${item.name}</span>
-          <span class="cart-line-qty">× ${cart[id]}</span>
-          <span class="cart-line-price">${priceStr}</span>
-          <button class="cart-line-remove" onclick="changeQty(${id},-99)" title="Entfernen">✕</button>
-        `;
-        cartItemsList.appendChild(line);
-      });
-      cartTotalWrap.style.display = '';
-      cartTotal.textContent = '€ ' + total.toFixed(2).replace('.',',') + (hasUnknown ? ' +' : '');
-      checkOrder();
+        return `<div class="portal-summary-row">
+          <span class="pname">${item.name}</span>
+          <span class="pqty">× ${cart[id]}</span>
+          <span class="pprice">${priceStr}</span>
+        </div>`;
+      }).join('');
+
+      orderSummaryItems.innerHTML = rowsHtml;
+      paySummaryItems.innerHTML   = rowsHtml;
+      orderSummaryTotal.style.display = 'flex';
+      paySummaryTotal.style.display   = 'flex';
+      const totalStr = '€ ' + total.toFixed(2).replace('.',',') + (hasUnknown ? ' +' : '');
+      orderSummaryPrice.textContent = totalStr;
+      paySummaryPrice.textContent   = totalStr;
+      checkPayReady();
     }
 
-    // ─ Abholzeit ──────────────────────────────────────────
-    pickupDate.addEventListener('change', () => {
-      pickupTime = null;
-      renderPickupSlots();
-      checkOrder();
+    orderToPayBtn.addEventListener('click', () => switchTab('pay'));
+
+    // ════════════════════════════════════════════════════════
+    //  PANEL 3 — ABHOLUNG & ZAHLUNG
+    // ════════════════════════════════════════════════════════
+    const pickupDate = document.getElementById('pickup-date');
+    const pickupTime = document.getElementById('pickup-time');
+    const payName    = document.getElementById('pay-name');
+    const payPhone   = document.getElementById('pay-phone');
+    const payNote    = document.getElementById('pay-note');
+    const paySubmit  = document.getElementById('pay-submit');
+    const paySuccess = document.getElementById('pay-success');
+    const paySuccDet = document.getElementById('pay-success-detail');
+
+    pickupDate.min   = todayStr;
+    pickupDate.value = todayStr;
+
+    function refreshPickupTimes() {
+      buildTimeOptions(pickupTime, pickupDate.value, 30);
+    }
+    function checkPayReady() {
+      const hasItems = Object.keys(cart).length > 0;
+      const ok = hasItems && pickupDate.value && pickupTime.value &&
+                 payName.value.trim().length > 1 &&
+                 payPhone.value.trim().length > 6;
+      paySubmit.disabled = !ok;
+    }
+    pickupDate.addEventListener('change', () => { refreshPickupTimes(); checkPayReady(); });
+    pickupTime.addEventListener('change', checkPayReady);
+    [payName, payPhone].forEach(el => el.addEventListener('input', checkPayReady));
+    refreshPickupTimes();
+
+    document.querySelectorAll('.portal-pay-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.portal-pay-opt').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+      });
     });
 
-    function renderPickupSlots() {
-      pickupGrid.innerHTML = '';
-      const val = pickupDate.value;
-      if (!val) return;
-
-      const d   = new Date(val + 'T12:00:00');
-      const h   = PICKUP_HOURS[d.getDay()];
-      if (!h) {
-        pickupGrid.innerHTML = '<p style="font-size:0.72rem;color:rgba(245,240,232,0.25)">An diesem Tag geschlossen</p>';
-        return;
-      }
-
-      // Aktuelle Uhrzeit in Minuten (nur für heute relevant)
-      const now      = new Date();
-      const isToday  = val === `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
-      const nowMins  = isToday ? now.getHours() * 60 + now.getMinutes() + 30 : 0; // +30min Vorlauf
-
-      let firstAvail = null;
-      let hasAny = false;
-
-      for (let m = h.open; m <= h.close - 30; m += 30) {
-        const isPast = isToday && m < nowMins;
-        if (isPast) continue; // vergangene Slots nicht anzeigen
-        hasAny = true;
-
-        const btn = document.createElement('button');
-        btn.className = 'pickup-slot';
-        btn.textContent = toHHMM(m);
-        btn.dataset.val = m;
-        if (firstAvail === null) firstAvail = btn;
-
-        btn.addEventListener('click', () => {
-          pickupGrid.querySelectorAll('.pickup-slot').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          pickupTime = btn.dataset.val;
-          checkOrder();
-        });
-        pickupGrid.appendChild(btn);
-      }
-
-      if (!hasAny) {
-        pickupGrid.innerHTML = '<p style="font-size:0.72rem;color:rgba(245,240,232,0.25)">Heute keine weiteren Abholzeiten verfügbar</p>';
-      }
-    }
-
-    // ─ Submit-Status ──────────────────────────────────────
-    function checkOrder() {
-      const hasItems = Object.keys(cart).length > 0;
-      const hasTime  = !!pickupTime;
-      orderSubmit.disabled = !(hasItems && hasTime);
-    }
-
-    // ─ Bestellung absenden ────────────────────────────────
-    orderSubmit.addEventListener('click', () => {
+    paySubmit.addEventListener('click', () => {
       const ids   = Object.keys(cart).map(Number);
       const lines = ids.map(id => `${cart[id]}× ${MENU.find(m=>m.id===id).name}`).join(', ');
-      const time  = toHHMM(parseInt(pickupTime));
-      const date  = pickupDate.value;
-      const d     = new Date(date+'T12:00:00');
-      const fmt   = d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear();
-      orderSuccDet.textContent = `${lines} · Abholung ${fmt} um ${time} Uhr`;
+      const time  = toHHMM(parseInt(pickupTime.value));
+      paySuccDet.textContent = `${lines} · Abholung ${formatDate(pickupDate.value)} um ${time} Uhr`;
 
-      // Alles ausblenden außer Erfolgsmeldung
-      [...cartBox.children].forEach(el => { if (el.id !== 'orderSuccess') el.style.display = 'none'; });
-      orderSuccess.classList.add('visible');
+      [...panels.pay.children].forEach(el => { if (el.id !== 'pay-success') el.style.display = 'none'; });
+      paySuccess.classList.add('visible');
     });
 
-    // ─ Reset ──────────────────────────────────────────────
     window.resetOrder = function() {
-      cart = {}; pickupTime = null;
-      MENU.forEach(item => {
-        const ctrl = document.getElementById(`ctrl-${item.id}`);
-        const btn  = document.getElementById(`addbtn-${item.id}`);
-        const row  = document.getElementById(`speise-${item.id}`);
-        const qty  = document.getElementById(`qty-${item.id}`);
+      Object.keys(cart).map(Number).forEach(id => {
+        const ctrl = document.getElementById(`ctrl-${id}`);
+        const btn  = document.getElementById(`addbtn-${id}`);
+        const row  = document.getElementById(`speise-${id}`);
+        const qty  = document.getElementById(`qty-${id}`);
         if (ctrl) ctrl.classList.add('hidden');
         if (btn)  btn.style.display = '';
         if (row)  row.classList.remove('in-cart');
         if (qty)  qty.textContent = '1';
       });
-      pickupDate.value = '';
-      document.getElementById('orderNote').value = '';
-      pickupGrid.innerHTML = '<p style="font-size:0.72rem;color:rgba(245,240,232,0.25);letter-spacing:0.05em">Bitte zuerst ein Datum wählen</p>';
-      orderSuccess.classList.remove('visible');
-      [...cartBox.children].forEach(el => el.style.display = '');
-      renderCart();
+      cart = {};
+
+      pickupDate.value = todayStr;
+      refreshPickupTimes();
+      payName.value = ''; payPhone.value = ''; payNote.value = '';
+      paySuccess.classList.remove('visible');
+      [...panels.pay.children].forEach(el => el.style.display = '');
+      renderOrderSummaries();
+      switchTab('order');
     };
 
+    renderOrderSummaries();
   })();
 
-  // ════════════════════════════════════════════════════════
-  // RESERVATION MODULE
-  // ════════════════════════════════════════════════════════
-  (function() {
-    // Öffnungszeiten in Minuten ab Mitternacht
-    // 0 = Sonntag, 1–6 = Mo–Sa
-    const HOURS = {
-      0: { open: 13*60, close: 21*60 },  // Sonntag 13–21
-      1: { open: 12*60, close: 22*60 },
-      2: { open: 12*60, close: 22*60 },
-      3: { open: 12*60, close: 22*60 },
-      4: { open: 12*60, close: 22*60 },
-      5: { open: 12*60, close: 22*60 },
-      6: { open: 12*60, close: 22*60 },
-    };
-
-    const DAY_NAMES = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
-    const MONTH_NAMES = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-
-    function toHHMM(mins) {
-      return String(Math.floor(mins/60)).padStart(2,'0') + ':' + String(mins%60).padStart(2,'0');
-    }
-    function formatDate(dateStr) {
-      const d = new Date(dateStr + 'T12:00:00');
-      return DAY_NAMES[d.getDay()] + ', ' + d.getDate() + '. ' + MONTH_NAMES[d.getMonth()] + ' ' + d.getFullYear();
-    }
-
-    // State
-    let state = { guests: null, duration: null, date: null, time: null };
-
-    // DOM refs
-    const guestOpts   = document.getElementById('guestOpts');
-    const durOpts     = document.getElementById('durOpts');
-    const resDate     = document.getElementById('resDate');
-    const resDateHint = document.getElementById('resDateHint');
-    const resDivider1 = document.getElementById('resDivider1');
-    const resDivider2 = document.getElementById('resDivider2');
-    const slotsSection  = document.getElementById('resSlotsSection');
-    const timeGrid    = document.getElementById('timeGrid');
-    const contactSect = document.getElementById('resContactSection');
-    const resSummary  = document.getElementById('resSummary');
-    const resName     = document.getElementById('resName');
-    const resPhone    = document.getElementById('resPhone');
-    const resSubmit   = document.getElementById('resSubmit');
-    const resSuccess  = document.getElementById('resSuccess');
-    const resSuccDet  = document.getElementById('resSuccessDetail');
-    const resForm     = document.getElementById('resForm');
-
-    // Set min date to today
-    const today = new Date();
-    const yyyy  = today.getFullYear();
-    const mm    = String(today.getMonth()+1).padStart(2,'0');
-    const dd    = String(today.getDate()).padStart(2,'0');
-    resDate.min = `${yyyy}-${mm}-${dd}`;
-
-    // ── Option button helpers ──────────────────────────────
-    function bindOpts(container, key) {
-      container.querySelectorAll('.res-opt').forEach(btn => {
-        btn.addEventListener('click', () => {
-          container.querySelectorAll('.res-opt').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          state[key] = btn.dataset.val;
-          onStateChange();
-        });
-      });
-    }
-    bindOpts(guestOpts, 'guests');
-    bindOpts(durOpts,   'duration');
-
-    resDate.addEventListener('change', () => {
-      state.date = resDate.value;
-      state.time = null;
-      const d = new Date(resDate.value + 'T12:00:00');
-      const dayName = DAY_NAMES[d.getDay()];
-      const h = HOURS[d.getDay()];
-      resDateHint.textContent = h
-        ? `${dayName} · ${toHHMM(h.open)} – ${toHHMM(h.close)} Uhr`
-        : '';
-      onStateChange();
-    });
-
-    // ── Slot generation ────────────────────────────────────
-    function getSlots(dateStr, durationMins) {
-      const d   = new Date(dateStr + 'T12:00:00');
-      const h   = HOURS[d.getDay()];
-      if (!h) return [];
-      const slots = [];
-      let t = h.open;
-      while (t + durationMins <= h.close) {
-        slots.push(t);
-        t += 30;
-      }
-      return slots;
-    }
-
-    // ── Render time grid ───────────────────────────────────
-    function renderSlots() {
-      timeGrid.innerHTML = '';
-      if (!state.date || !state.duration) return;
-
-      const slots = getSlots(state.date, parseInt(state.duration));
-
-      if (slots.length === 0) {
-        timeGrid.innerHTML = '<p class="no-slots-msg">Für diesen Tag sind keine Zeitfenster verfügbar.</p>';
-        return;
-      }
-
-      slots.forEach(mins => {
-        const btn = document.createElement('button');
-        btn.className = 'time-slot';
-        btn.textContent = toHHMM(mins);
-        btn.dataset.val = mins;
-        if (state.time === String(mins)) btn.classList.add('active');
-        btn.addEventListener('click', () => {
-          timeGrid.querySelectorAll('.time-slot').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          state.time = btn.dataset.val;
-          onStateChange();
-        });
-        timeGrid.appendChild(btn);
-      });
-    }
-
-    // ── Update summary ─────────────────────────────────────
-    function updateSummary() {
-      if (!state.guests || !state.duration || !state.date || !state.time) return;
-      const endMins = parseInt(state.time) + parseInt(state.duration);
-      resSummary.innerHTML =
-        `<strong>${state.guests} ${state.guests === '8+' ? 'oder mehr Personen' : state.guests == 1 ? 'Person' : 'Personen'}</strong>
-        &nbsp;·&nbsp; ${formatDate(state.date)}
-        &nbsp;·&nbsp; <strong>${toHHMM(parseInt(state.time))} – ${toHHMM(endMins)} Uhr</strong>
-        &nbsp;·&nbsp; ${state.duration} Minuten`;
-      resSummary.classList.add('visible');
-    }
-
-    // ── Submit enable/disable ──────────────────────────────
-    function checkSubmitReady() {
-      const nameOk  = resName.value.trim().length > 1;
-      const phoneOk = resPhone.value.trim().length > 6;
-      resSubmit.disabled = !(nameOk && phoneOk);
-    }
-    resName.addEventListener('input',  checkSubmitReady);
-    resPhone.addEventListener('input', checkSubmitReady);
-
-    // ── Main state handler ─────────────────────────────────
-    function onStateChange() {
-      const hasDateAndDur = state.date && state.duration;
-
-      // Show/hide slot section
-      resDivider1.style.display = hasDateAndDur ? 'block' : 'none';
-      if (hasDateAndDur) {
-        slotsSection.classList.add('visible');
-        renderSlots();
-      } else {
-        slotsSection.classList.remove('visible');
-      }
-
-      // Show/hide contact section
-      const allSelected = state.guests && state.duration && state.date && state.time;
-      resDivider2.style.display = allSelected ? 'block' : 'none';
-      if (allSelected) {
-        contactSect.classList.add('visible');
-        updateSummary();
-        checkSubmitReady();
-      } else {
-        contactSect.classList.remove('visible');
-        resSummary.classList.remove('visible');
-      }
-    }
-
-    // ── Submit ─────────────────────────────────────────────
-    resSubmit.addEventListener('click', () => {
-      const endMins = parseInt(state.time) + parseInt(state.duration);
-      resSuccDet.textContent =
-        `${state.guests} ${state.guests === '8+' ? 'oder mehr Personen' : state.guests == 1 ? 'Person' : 'Personen'} · `
-        + formatDate(state.date) + ' · '
-        + toHHMM(parseInt(state.time)) + ' – ' + toHHMM(endMins) + ' Uhr';
-
-      // Hide form content, show success
-      [...resForm.children].forEach(el => {
-        if (el.id !== 'resSuccess') el.style.display = 'none';
-      });
-      resSuccess.classList.add('visible');
-    });
-
-    // ── Reset ──────────────────────────────────────────────
-    window.resetReservation = function() {
-      state = { guests: null, duration: null, date: null, time: null };
-      document.querySelectorAll('.res-opt, .time-slot').forEach(b => b.classList.remove('active'));
-      resDate.value       = '';
-      resDateHint.textContent = '';
-      resName.value       = '';
-      resPhone.value      = '';
-      document.getElementById('resNote').value = '';
-      slotsSection.classList.remove('visible');
-      contactSect.classList.remove('visible');
-      resSummary.classList.remove('visible');
-      resDivider1.style.display = 'none';
-      resDivider2.style.display = 'none';
-      resSuccess.classList.remove('visible');
-      [...resForm.children].forEach(el => el.style.display = '');
-    };
-  })();
-
-  // ─── Mobile Warenkorb-Bar Sync ─────────────────────────────
-  (function() {
-    const mobileBar   = document.getElementById('mobileCartBar');
-    const mobileLbl   = document.getElementById('mobileCartItemsLbl');
-    const mobileTotal = document.getElementById('mobileCartTotalVal');
-    const mobileBtn   = document.getElementById('mobileOrderBtn');
-    const mainSubmit  = document.getElementById('orderSubmit');
-    if (!mobileBar) return;
-
-    function syncMobileCart() {
-      // Lese Gesamtpreis und Artikelanzahl aus dem Desktop-Warenkorb
-      const totalEl = document.getElementById('cartTotalPrice');
-      const countEl = document.getElementById('cartCount');
-      const total   = totalEl ? totalEl.textContent : '€ 0,00';
-      const count   = countEl ? parseInt(countEl.textContent) || 0 : 0;
-
-      mobileTotal.textContent = total;
-      mobileLbl.textContent   = count === 1 ? '1 Artikel' : `${count} Artikel`;
-
-      if (count > 0) {
-        mobileBar.classList.add('has-items');
-        mobileBtn.disabled = false;
-      } else {
-        mobileBar.classList.remove('has-items');
-        mobileBtn.disabled = true;
-      }
-    }
-
-    // Klick auf mobilen Button → Haupt-Submit auslösen
-    mobileBtn && mobileBtn.addEventListener('click', () => {
-      mainSubmit && mainSubmit.click();
-    });
-
-    // Auf DOM-Änderungen im Warenkorb lauschen
-    const cartList = document.getElementById('cartItemsList') || document.getElementById('cartList');
-    if (cartList) {
-      new MutationObserver(syncMobileCart).observe(document.body, { childList: true, subtree: true });
-    }
-    syncMobileCart();
-  })();
   </script>
 
   <!-- ── Sticky Call Bar (Mobile) ──────────────────────────── -->
@@ -3512,7 +3762,7 @@
       </svg>
       Jetzt anrufen
     </a>
-    <a class="sticky-call-reserve" href="#kontakt">
+    <a class="sticky-call-reserve" href="#abholen" onclick="window.kaisekiPortalTab&&window.kaisekiPortalTab('res')">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
         <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
@@ -3522,16 +3772,6 @@
     </a>
   </div>
 
-  <!-- ── Mobile Warenkorb-Bar (Take-Away) ───────────────────── -->
-  <div class="mobile-cart-bar" id="mobileCartBar">
-    <div class="mobile-cart-info">
-      <span class="mobile-cart-items-label" id="mobileCartItemsLbl">0 Artikel</span>
-      <span class="mobile-cart-total-val" id="mobileCartTotalVal">€ 0,00</span>
-    </div>
-    <button class="mobile-order-btn" id="mobileOrderBtn" disabled>
-      <span>Bestellen</span>
-    </button>
-  </div>
 
 </body>
 </html>
