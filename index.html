@@ -2355,6 +2355,24 @@
       letter-spacing: 0.32em;
       color: rgba(201,168,76,0.55);
     }
+    .gate-eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(201,168,76,0.35);
+      background: rgba(201,168,76,0.06);
+      margin-top: 0.2rem;
+    }
+    .gate-footer {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: rgba(245,240,232,0.35);
+      letter-spacing: 0.04em;
+      margin-top: 0.4rem;
+    }
     .gate-card h2 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
@@ -2472,27 +2490,29 @@
     })();
   </script>
 
-  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Zugangscode erforderlich">
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Webseite im Aufbau">
     <div class="gate-card">
       <img class="gate-logo" src="Kaiseki_Logo1.png" alt="Kaiseki" />
-      <div class="gate-kana">懐石</div>
-      <h2>Geschützter Bereich</h2>
-      <p class="gate-sub">Bitte geben Sie das Zugangswort ein, um die Seite zu betreten.</p>
+      <div class="gate-kana">準備中 · 懐石</div>
+      <div class="gate-eyebrow">Coming Soon</div>
+      <h2>Webseite im Aufbau</h2>
+      <p class="gate-sub">Unsere neue Seite befindet sich noch in den letzten Vorbereitungen.<br/>Mit Zugangswort gelangen Sie zur Vorschau.</p>
       <div class="gate-divider"></div>
       <form class="gate-form" id="gateForm" autocomplete="off">
         <input
           type="password"
           id="gateInput"
-          placeholder="Passwort"
+          placeholder="Zugangswort"
           autocomplete="off"
           autocapitalize="off"
           autocorrect="off"
           spellcheck="false"
-          aria-label="Passwort"
+          aria-label="Zugangswort"
         />
-        <button type="submit"><span>Eintreten</span></button>
+        <button type="submit"><span>Vorschau ansehen</span></button>
       </form>
       <div class="gate-error" id="gateError">Falsches Passwort</div>
+      <p class="gate-footer">Bald für Sie geöffnet · Kaiseki Hechingen</p>
     </div>
   </div>
 
